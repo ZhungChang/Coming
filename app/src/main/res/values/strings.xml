@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Coming</string>
+    <string name="action_add">Add</string>
+    <string name="action_settings">Setting</string>
+    <string name="time">Time:</string>
+    <string name="content">Content:</string>
+    <string name="cancel">Cancel</string>
+    <string name="enter">Enter</string>
+    <string name="set_time">00:00:00</string>
+    <string name="dotdot">:</string>
+</resources>

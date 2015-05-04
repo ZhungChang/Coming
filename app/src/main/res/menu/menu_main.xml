@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:yourapp="http://schemas.android.com/apk/res-auto" >
+
+    <!-- Delete, should appear as action button -->
+    <item
+        android:id="@+id/action_discard"
+        android:icon="@mipmap/ic_action_discard"
+        android:title="Discard"
+        yourapp:showAsAction="ifRoom"/>
+    <!-- New, should appear as action button -->
+    <item
+        android:id="@+id/action_new"
+        android:icon="@mipmap/ic_action_new"
+        android:title="New"
+        yourapp:showAsAction="ifRoom"/>
+    <!-- Settings, should always be in the overflow -->
+    <item
+        android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        yourapp:showAsAction="never" />
+</menu>

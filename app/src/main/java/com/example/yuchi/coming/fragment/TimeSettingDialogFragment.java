@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.NumberPicker;
 
 import com.example.yuchi.coming.R;
@@ -19,7 +20,7 @@ import java.text.SimpleDateFormat;
  */
 public class TimeSettingDialogFragment extends DialogFragment {
     private NumberPicker HR,MIN,SEC;
-    private Button time_setting;
+    private EditText time_setting;
 
     public static TimeSettingDialogFragment newInstance(int title) {
         TimeSettingDialogFragment frag = new TimeSettingDialogFragment();
@@ -34,7 +35,7 @@ public class TimeSettingDialogFragment extends DialogFragment {
         int title = getArguments().getInt("title");
         LayoutInflater mInflater = LayoutInflater.from(getActivity());
         View v = mInflater.inflate(R.layout.timepicker,null);
-        time_setting = (Button) v.findViewById(R.id.new_timeDialog);
+        time_setting = (EditText) v.findViewById(R.id.new_timeDialog);
 
         return new AlertDialog.Builder(getActivity())
                 .setTitle(title)

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.yuchi.coming.R;
 
@@ -13,17 +14,30 @@ import com.example.yuchi.coming.R;
  * Created by choes_000 on 2015/3/29.
  */
 public class NewFragment extends Fragment {
-    private EditText editEvent;
-    private View v;
-    private String event;
+
+    //EditText that sets up the alarm time.
+    private EditText mTimeDialog;
+
+    public NewFragment() {
+        // Required empty public constructor
+    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.fragment_new, container, false);
-        //This is the adapter we use to populate the list.
-        editEvent = (EditText) v.findViewById(R.id.new_contentEdit);
-        event = editEvent.getText().toString();
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Initialize dataset, this data would usually come from a local content provider or
+        // remote server.
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        //Inflate the fragment_new layout
+        View v = inflater.inflate(R.layout.fragment_new, container, false);
+
+        //
+
         return inflater.inflate(R.layout.fragment_new, container, false);
     }
 }

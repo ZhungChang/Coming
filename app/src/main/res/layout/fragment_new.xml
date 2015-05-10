@@ -3,11 +3,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-        <Button
-            android:id="@+id/new_timeDialog"
-            android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <NumberPicker
+            android:id="@+id/hr"
+            android:layout_width="40sp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/first_dot"
+            android:layout_width="20sp"
             android:layout_height="wrap_content"
-            android:text="@string/setting_timer"/>
+            android:layout_gravity="center"
+            android:text="@string/dotdot"/>
+
+        <NumberPicker
+            android:id="@+id/min"
+            android:layout_width="40sp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/sec_dot"
+            android:layout_width="20sp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/dotdot"/>
+
+        <NumberPicker
+            android:id="@+id/sec"
+            android:layout_width="40sp"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
 
         <EditText
             android:id="@+id/new_contentEdit"

@@ -16,10 +16,6 @@ import com.example.yuchi.coming.R;
  */
 public class MainActivity extends AppCompatActivity {
 
-    public interface OnHeadlineSelectedListener {
-        public void onArticleSelected(int position);
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

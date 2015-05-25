@@ -16,16 +16,13 @@ public class TimerDbHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "data.db";
     // If you change the database schema, you must increment the database version.
     public static final int DATABASE_VERSION = 1;
+    static final String COMMA_SEP = ",";
 
-    private static final String TEXT_TYPE = " TEXT";
-    private static final String COMMA_SEP = ",";
     private static final String SQL_CREATE_ENTRIES =
               "CREATE TABLE " + TABLE_NAME + " (" +
-              _ID + " INTEGER PRIMARY KEY AUTOINCREMENT" + COMMA_SEP +
+              COLUMN_NAME_ENTRY_ID + "INTEGER PRIMARY KEY AUTOINCREMENT" + COMMA_SEP +
               COLUMN_EVENT_CONTENT + "CHAR" + COMMA_SEP +
-              COLUMN_TIMER_HR + "INTEGER NOT NULL" + COMMA_SEP +
-              COLUMN_TIMER_MIN + "INTEGER NOT NULL" + COMMA_SEP +
-              COLUMN_TIMER_SEC + "INTEGER NOT NULL"  + ")";
+              COLUMN_TIMER_CHANGETOSECOND + "INTEGER NOT NULL" + COMMA_SEP  + ")";
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + TABLE_NAME;
 
@@ -48,7 +45,7 @@ public class TimerDbHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    public void add(SQLiteDatabase db,TimerDbHelper mDbHelper, String content, String hr, String min, String sec){
+    public void add(SQLiteDatabase db,TimerDbHelper mDbHelper, String content, String sec){
         // Gets the data repository in write mode
         SQLiteDatabase DB = mDbHelper.getWritableDatabase();
 
@@ -56,9 +53,7 @@ public class TimerDbHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         values.put(FeedEntry.COLUMN_EVENT_CONTENT, content);
-        values.put(FeedEntry.COLUMN_TIMER_HR, hr);
-        values.put(FeedEntry.COLUMN_TIMER_MIN, min);
-        values.put(FeedEntry.COLUMN_TIMER_SEC, sec);
+        values.put(FeedEntry.COLUMN_TIMER_CHANGETOSECOND, sec);
 
         // Insert the new row, returning the primary key value of the new row
         long newRowId;

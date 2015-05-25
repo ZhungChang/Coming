@@ -1,6 +1,7 @@
 package com.example.yuchi.coming.fragment;
 
 import android.app.Fragment;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.example.yuchi.coming.R;
+import com.example.yuchi.coming.common.database.TimerPack;
 
 /**
  * Created by choes_000 on 2015/3/29.
@@ -31,10 +33,8 @@ public class NewFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_new);
         // Initialize dataset, this data would usually come from a local content provider or
         // remote server.
-        mEnter = (Button) findViewById
     }
 
     @Override
@@ -54,7 +54,16 @@ public class NewFragment extends Fragment {
         secPicker.setMaxValue(59);
         secPicker.setMinValue(0);
 
+        mEnter = (Button) v.findViewById(R.id.enter);
         return v;
     }
 
+    private class insertDataInBackground extends AsyncTask<TimerPack, Void,Void>{
+
+        @Override
+        protected Void doInBackground(TimerPack... params) {
+            return null;
+        }
+
+    }
 }

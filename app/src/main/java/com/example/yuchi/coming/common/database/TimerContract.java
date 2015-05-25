@@ -17,8 +17,7 @@ public final class TimerContract {
 
         public static final String COLUMN_NAME_ENTRY_ID = "entryid";
         public static final String COLUMN_EVENT_CONTENT = "event";
-        public static final String COLUMN_TIMER_HR = "hour";
-        public static final String COLUMN_TIMER_MIN = "minute";
-        public static final String COLUMN_TIMER_SEC = "second";
+        public static final String COLUMN_TIMER_CHANGETOSECOND = "second";
+
     }
 }

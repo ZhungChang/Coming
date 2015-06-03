@@ -3,7 +3,9 @@ package com.example.yuchi.coming.fragment;
 import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.app.ActionBar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -33,6 +35,9 @@ public class NewFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+        
+        // END_INCLUDE (inflate_set_custom_view)
         // Initialize dataset, this data would usually come from a local content provider or
         // remote server.
     }
@@ -55,6 +60,11 @@ public class NewFragment extends Fragment {
         secPicker.setMinValue(0);
 
         mEnter = (Button) v.findViewById(R.id.enter);
+        mEnter.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                new insertDataInBackground();
+            }
+        });
         return v;
     }
 

@@ -36,7 +36,8 @@ public class NewFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        
+
+        getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
         // END_INCLUDE (inflate_set_custom_view)
         // Initialize dataset, this data would usually come from a local content provider or
         // remote server.

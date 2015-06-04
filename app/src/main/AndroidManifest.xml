@@ -1,8 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.yuchi.coming">
-    <uses-sdk android:minSdkVersion="13"
-        android:targetSdkVersion="22"/>
-
 
     <application
         android:allowBackup="true"

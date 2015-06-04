@@ -18,5 +18,5 @@
     <item
         android:id="@+id/action_settings"
         android:title="@string/action_settings"
-        yourapp:showAsAction="never" />
+        yourapp:showAsAction="always" />
 </menu>

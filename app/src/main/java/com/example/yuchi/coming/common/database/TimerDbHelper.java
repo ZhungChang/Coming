@@ -12,6 +12,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by choes_000 on 2015/4/6.
  */
 public class TimerDbHelper extends SQLiteOpenHelper {
+
     /* Database name*/
     public static final String DATABASE_NAME = "data.db";
     // If you change the database schema, you must increment the database version.
@@ -25,6 +26,10 @@ public class TimerDbHelper extends SQLiteOpenHelper {
               COLUMN_TIMER_CHANGETOSECOND + "INTEGER NOT NULL" + COMMA_SEP  + ")";
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + TABLE_NAME;
+
+    public TimerDbHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
 
     public TimerDbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -45,9 +50,9 @@ public class TimerDbHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    public void add(SQLiteDatabase db,TimerDbHelper mDbHelper, String content, String sec){
+    public void add(TimerDbHelper mDbHelper, String content, int sec){
         // Gets the data repository in write mode
-        SQLiteDatabase DB = mDbHelper.getWritableDatabase();
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();

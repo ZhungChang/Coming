@@ -5,12 +5,12 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.app.ActionBar;
-import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.example.yuchi.coming.R;
+import com.example.yuchi.coming.common.database.TimerDbHelper;
 
 /**
  * Created by choes_000 on 2015/3/16.
@@ -56,9 +56,6 @@ public class MainActivity extends Activity{
 
         //noinspection SimplifiableIfStatement
         switch (item.getItemId()) {
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
             case R.id.action_new:
                 newEvent();
                 return true;

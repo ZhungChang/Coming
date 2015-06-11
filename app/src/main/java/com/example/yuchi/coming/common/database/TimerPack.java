@@ -10,10 +10,23 @@ public class TimerPack implements Parcelable {
 
     private String event;
     private int changeToSecond;
+    private int Second, Min, Hr;
 
-    private TimerPack(){
+    public TimerPack(){
 
     }
+
+    public int getSecond(){return Second;}
+
+    public void setSecond(int Second){this.Second = Second;}
+
+    public int getMin(){return Min;}
+
+    public void setMin(int Min){this.Min = Min;}
+
+    public int getHr(){return Hr;}
+
+    public void setHr(int Hr){this.Hr = Hr;}
 
     public String getEventStr(){return event;}
 

@@ -1,10 +1,11 @@
 package com.example.yuchi.coming.fragment;
 
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -45,7 +46,7 @@ public class NewFragment extends Fragment {
 
         timerdbhelper = new TimerDbHelper(getActivity());
 
-        getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActivity().invalidateOptionsMenu();
         // END_INCLUDE (inflate_set_custom_view)
         // Initialize dataset, this data would usually come from a local content provider or
         // remote server.
@@ -105,4 +106,10 @@ public class NewFragment extends Fragment {
         }
 
     }
+
+    @Override
+    public void onCreateOptionsMenu (Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_new, menu);
+    }
+
 }

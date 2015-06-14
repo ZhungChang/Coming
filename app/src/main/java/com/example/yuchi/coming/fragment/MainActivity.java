@@ -68,6 +68,11 @@ public class MainActivity extends Activity{
         }
     }
 
+    @Override
+    public void invalidateOptionsMenu (){
+
+    }
+
     public void newEvent(){
         // Otherwise, we're in the one-pane layout and must swap frags...
 

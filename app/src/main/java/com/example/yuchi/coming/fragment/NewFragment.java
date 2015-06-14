@@ -1,25 +1,19 @@
 package com.example.yuchi.coming.fragment;
 
 import android.app.Fragment;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import android.app.FragmentTransaction;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.ActionBar;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
-import android.widget.TextView;
 
 import com.example.yuchi.coming.R;
 import com.example.yuchi.coming.common.database.TimerDbHelper;
 import com.example.yuchi.coming.common.database.TimerPack;
-
-import java.util.Timer;
 
 /**
  * Created by choes_000 on 2015/3/29.
@@ -103,6 +97,16 @@ public class NewFragment extends Fragment {
         mEnter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 new insertDataInBackground();
+                // Create new fragment and transaction
+                Fragment eventFragment = new EventFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                // Replace whatever is in the fragment_container view with this fragment,
+                // and add the transaction to the back stack
+                transaction.replace(R.id.fragment_container, eventFragment);
+
+                // Commit the transaction
+                transaction.commit();
             }
         });
         return v;

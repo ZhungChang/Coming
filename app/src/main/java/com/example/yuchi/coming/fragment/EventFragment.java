@@ -2,13 +2,6 @@ package com.example.yuchi.coming.fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-
-import com.example.yuchi.coming.R;
 
 /**
  * Created by choes_000 on 2015/3/23.

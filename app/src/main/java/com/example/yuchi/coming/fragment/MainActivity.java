@@ -4,13 +4,11 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.example.yuchi.coming.R;
-import com.example.yuchi.coming.common.database.TimerDbHelper;
 
 /**
  * Created by choes_000 on 2015/3/16.
@@ -33,6 +31,7 @@ public class MainActivity extends Activity{
             }
             FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
             EventFragment fragment = new EventFragment();
             fragmentTransaction.replace(R.id.event_fragment, fragment);
             fragmentTransaction.commit();

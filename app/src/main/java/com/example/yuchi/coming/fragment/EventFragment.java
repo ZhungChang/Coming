@@ -1,12 +1,13 @@
 package com.example.yuchi.coming.fragment;
 
 import android.app.Fragment;
+import android.app.ListFragment;
 import android.os.Bundle;
 
 /**
  * Created by choes_000 on 2015/3/23.
  */
-public class EventFragment extends Fragment {
+public class EventFragment extends ListFragment {
 
     protected EventAdapter mAdapter;
     protected String[] mDataset;

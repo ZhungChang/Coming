@@ -93,22 +93,6 @@ public class NewFragment extends Fragment {
             }
         });
 
-        mEnter = (Button) v.findViewById(R.id.enter);
-        mEnter.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                new insertDataInBackground();
-                // Create new fragment and transaction
-                Fragment eventFragment = new EventFragment();
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-                // Replace whatever is in the fragment_container view with this fragment,
-                // and add the transaction to the back stack
-                transaction.replace(R.id.fragment_container, eventFragment);
-
-                // Commit the transaction
-                transaction.commit();
-            }
-        });
         return v;
     }
 

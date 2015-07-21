@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -20,6 +21,8 @@ import com.example.yuchi.coming.common.database.TimerPack;
  * Created by choes_000 on 2015/3/29.
  */
 public class NewFragment extends Fragment {
+
+    Menu menu;
 
     //Numberpickers that sets up the alarm time
     private NumberPicker hrPicker,minPicker,secPicker;
@@ -43,10 +46,9 @@ public class NewFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
+        getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
         timerdbhelper = new TimerDbHelper(getActivity());
 
-        getActivity().invalidateOptionsMenu();
         // END_INCLUDE (inflate_set_custom_view)
         // Initialize dataset, this data would usually come from a local content provider or
         // remote server.
@@ -60,6 +62,7 @@ public class NewFragment extends Fragment {
 
         tmp = 0;
 
+        //Connect with the space of inputing event.
         mEdit = (EditText) v.findViewById(R.id.new_contentEdit);
 
         hrPicker = (NumberPicker) v.findViewById(R.id.hr);
@@ -93,7 +96,6 @@ public class NewFragment extends Fragment {
                 tmp = tmp + newVal;
             }
         });
-
         return v;
     }
 
@@ -104,12 +106,36 @@ public class NewFragment extends Fragment {
             timerdbhelper.add(timerdbhelper,mEdit.getText().toString(),tmp);
             return null;
         }
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+
+        //noinspection SimplifiableIfStatement
+        switch (item.getItemId()) {
+            case R.id.action_new:
+
+                //Add a new event to the database.
+                insertDataInBackground ad = new insertDataInBackground();
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
     public void onCreateOptionsMenu (Menu menu, MenuInflater inflater) {
+
+        //Show the menu menu_new.
+        this.menu = menu;
         inflater.inflate(R.menu.menu_new, menu);
+
+        //Hide the menu  menu_main.
+        menu.setGroupVisible(R.id.main_menu_group, false);
     }
 
 }

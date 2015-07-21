@@ -60,18 +60,11 @@ public class MainActivity extends Activity{
                 return true;
             case R.id.action_discard:
                 return true;
-            case R.id.action_settings:
-                return true;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    @Override
-    public void invalidateOptionsMenu (){
-
-    }
 
     public void newEvent(){
         // Otherwise, we're in the one-pane layout and must swap frags...

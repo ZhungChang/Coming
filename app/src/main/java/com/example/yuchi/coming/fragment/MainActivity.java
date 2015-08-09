@@ -44,6 +44,7 @@ public class MainActivity extends Activity{
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
+
         return true;
     }
 
@@ -72,14 +73,18 @@ public class MainActivity extends Activity{
         // Create fragment and give it an argument for the selected article
         NewFragment newFragment = new NewFragment();
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        getFragmentManager().beginTransaction()
+                .add(R.id.event_fragment,newFragment)
+                .addToBackStack(null)
+                .commit();
 
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack so the user can navigate back
         fragmentTransaction.replace(R.id.event_fragment, newFragment);
-        fragmentTransaction.addToBackStack(null);
 
         // Commit the transaction
         fragmentTransaction.commit();
     }
+
 
 }

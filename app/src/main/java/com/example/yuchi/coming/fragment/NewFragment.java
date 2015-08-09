@@ -1,6 +1,8 @@
 package com.example.yuchi.coming.fragment;
 
 import android.app.Fragment;
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
+import android.widget.Toast;
 
 import com.example.yuchi.coming.R;
 import com.example.yuchi.coming.common.database.TimerDbHelper;
@@ -99,14 +102,6 @@ public class NewFragment extends Fragment {
         return v;
     }
 
-    private class insertDataInBackground extends AsyncTask<TimerPack, Void,Void>{
-
-        @Override
-        protected Void doInBackground(TimerPack... params) {
-            timerdbhelper.add(timerdbhelper,mEdit.getText().toString(),tmp);
-            return null;
-        }
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -117,10 +112,11 @@ public class NewFragment extends Fragment {
         //noinspection SimplifiableIfStatement
         switch (item.getItemId()) {
             case R.id.action_new:
-
                 //Add a new event to the database.
-                insertDataInBackground ad = new insertDataInBackground();
-
+                return true;
+            case android.R.id.home:
+                getFragmentManager().popBackStack();
+                getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -136,6 +132,28 @@ public class NewFragment extends Fragment {
 
         //Hide the menu  menu_main.
         menu.setGroupVisible(R.id.main_menu_group, false);
+    }
+
+    public void InsertClick() {
+        Context context = getActivity().getApplicationContext();
+        String event = mEdit.getText().toString().trim();
+        if (event.length() <= 0) {
+            Toast.makeText(context, R.string.msg_NameIsInvalid,
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+        Spot spot = new Spot(name, web, phoneNo, address, image);
+        long rowId = helper.insert(spot);
+        if (rowId != -1) {
+            Toast.makeText(this, R.string.msg_InsertSuccess,
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, R.string.msg_InsertFail,
+                    Toast.LENGTH_SHORT).show();
+        }
+        finish();
     }
 
 }

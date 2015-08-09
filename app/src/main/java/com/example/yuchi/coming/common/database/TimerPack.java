@@ -6,7 +6,7 @@ import android.os.Parcelable;
 /**
  * Created by choes_000 on 2015/5/3.
  */
-public class TimerPack implements Parcelable {
+public class TimerPack {
 
     private String event;
     private int changeToSecond;

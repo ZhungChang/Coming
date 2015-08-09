@@ -50,21 +50,21 @@ public class TimerDbHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    public void add(TimerDbHelper mDbHelper, String content, int sec){
+    public long add(TimerPack timerPack){
         // Gets the data repository in write mode
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        SQLiteDatabase db = getWritableDatabase();
 
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
 
-        values.put(FeedEntry.COLUMN_EVENT_CONTENT, content);
-        values.put(FeedEntry.COLUMN_TIMER_CHANGETOSECOND, sec);
+        values.put(FeedEntry.COLUMN_EVENT_CONTENT, timerPack.getEventStr());
+        values.put(FeedEntry.COLUMN_TIMER_CHANGETOSECOND, timerPack.getTotalSecond());
 
         // Insert the new row, returning the primary key value of the new row
         long newRowId;
-        newRowId = db.insert(
-                FeedEntry.TABLE_NAME,
-                FeedEntry.COLUMN_NAME_NULLABLE,
-                values);
+        return  newRowId = db.insert(
+                    FeedEntry.TABLE_NAME,
+                    FeedEntry.COLUMN_NAME_NULLABLE,
+                    values);
     }
 }

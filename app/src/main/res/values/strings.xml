@@ -9,5 +9,9 @@
     <string name="set_time">00:00:00</string>
     <string name="dotdot">:</string>
     <string name="setting_timer">Set up a countdown.</string>
+
     <string name="msg_NameIsInvalid">The content is null.</string>
+    <string name="msg_InsertSuccess">Saved successfully.</string>
+    <string name="msg_InsertFail">Can\'t save.</string>
+
 </resources>

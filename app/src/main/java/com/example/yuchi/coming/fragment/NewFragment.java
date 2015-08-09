@@ -37,7 +37,7 @@ public class NewFragment extends Fragment {
     private EditText mEdit;
 
     //Integer tmp that saves the time setting.
-    private int tmp;
+    private int Sec;
 
     private TimerDbHelper timerdbhelper;
 
@@ -63,7 +63,7 @@ public class NewFragment extends Fragment {
         //Inflate the fragment_new layout
         View v = inflater.inflate(R.layout.fragment_new, container, false);
 
-        tmp = 0;
+        Sec = 0;
 
         //Connect with the space of inputing event.
         mEdit = (EditText) v.findViewById(R.id.new_contentEdit);
@@ -82,21 +82,21 @@ public class NewFragment extends Fragment {
         hrPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                tmp = tmp + newVal * 60 * 60;
+                Sec = Sec + newVal * 60 * 60;
             }
         });
 
         minPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                tmp = tmp + newVal * 60;
+                Sec = Sec + newVal * 60;
             }
         });
 
         secPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                tmp = tmp + newVal;
+                Sec = Sec + newVal;
             }
         });
         return v;
@@ -113,6 +113,8 @@ public class NewFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_new:
                 //Add a new event to the database.
+                InsertClick();
+                getFragmentManager().popBackStack();
                 return true;
             case android.R.id.home:
                 getFragmentManager().popBackStack();
@@ -143,17 +145,16 @@ public class NewFragment extends Fragment {
             return;
         }
 
+        TimerPack timerPack = new TimerPack(event,Sec);
 
-        Spot spot = new Spot(name, web, phoneNo, address, image);
-        long rowId = helper.insert(spot);
+        long rowId = timerdbhelper.add(timerPack);
         if (rowId != -1) {
-            Toast.makeText(this, R.string.msg_InsertSuccess,
+            Toast.makeText(context, R.string.msg_InsertSuccess,
                     Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, R.string.msg_InsertFail,
+            Toast.makeText(context, R.string.msg_InsertSuccess,
                     Toast.LENGTH_SHORT).show();
         }
-        finish();
     }
 
 }

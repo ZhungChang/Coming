@@ -9,24 +9,16 @@ import android.os.Parcelable;
 public class TimerPack {
 
     private String event;
-    private int changeToSecond;
-    private int Second, Min, Hr;
+    private int totalSecond;
 
     public TimerPack(){
 
     }
 
-    public int getSecond(){return Second;}
-
-    public void setSecond(int Second){this.Second = Second;}
-
-    public int getMin(){return Min;}
-
-    public void setMin(int Min){this.Min = Min;}
-
-    public int getHr(){return Hr;}
-
-    public void setHr(int Hr){this.Hr = Hr;}
+    public TimerPack(String _event, int _second){
+        this.event = _event;
+        this.totalSecond = _second;
+    }
 
     public String getEventStr(){return event;}
 
@@ -34,26 +26,11 @@ public class TimerPack {
         this.event = eventStr;
     }
 
-    public int getchangeToSecond(){
-        return changeToSecond;
+    public int getTotalSecond(){
+        return totalSecond;
     }
 
-    public void setchangeToSecond(int changeToSecond){
-        this.changeToSecond = changeToSecond;
-    }
-
-    public TimerPack(String _event, int _second){
-        event = _event;
-        changeToSecond = _second;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-
+    public void setTotalSecond(int totalSecond){
+        this.totalSecond = totalSecond;
     }
 }

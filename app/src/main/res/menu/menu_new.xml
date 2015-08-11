@@ -4,7 +4,7 @@
     <group
         android:id="@+id/new_menu_group">
         <item
-            android:id="@+id/action_new"
+            android:id="@+id/action_add"
             android:icon="@mipmap/ic_action_new"
             android:title="New"
             android:showAsAction="ifRoom"/>

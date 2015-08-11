@@ -1,6 +1,8 @@
 package com.example.yuchi.coming.fragment;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -114,7 +116,7 @@ public class NewFragment extends Fragment {
             case R.id.action_new:
                 //Add a new event to the database.
                 InsertClick();
-                getFragmentManager().popBackStack();
+                changeFragment();
                 return true;
             case android.R.id.home:
                 getFragmentManager().popBackStack();
@@ -157,4 +159,18 @@ public class NewFragment extends Fragment {
         }
     }
 
+    public void changeFragment(){
+        // Otherwise, we're in the one-pane layout and must swap frags...
+
+        // Create fragment and give it an argument for the selected article
+        EventFragment eventFragment = new EventFragment();
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        getFragmentManager().beginTransaction()
+                // Replace whatever is in the fragment_container view with this fragment,
+                // and add the transaction to the back stack so the user can navigate back
+                .add(R.id.fragment_container, eventFragment)
+                .addToBackStack(null)
+                // Commit the transaction
+                .commit();
+    }
 }

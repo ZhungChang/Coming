@@ -1,4 +1,4 @@
-package com.example.yuchi.coming.common.clock;
+package com.example.yuchi.coming.fragment.clock;
 
 import android.app.Fragment;
 import android.os.Bundle;

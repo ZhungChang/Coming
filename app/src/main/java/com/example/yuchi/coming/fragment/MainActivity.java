@@ -33,7 +33,7 @@ public class MainActivity extends Activity{
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
             EventFragment fragment = new EventFragment();
-            fragmentTransaction.replace(R.id.event_fragment, fragment);
+            fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
         }
     }
@@ -74,17 +74,13 @@ public class MainActivity extends Activity{
         NewFragment newFragment = new NewFragment();
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         getFragmentManager().beginTransaction()
-                .add(R.id.event_fragment,newFragment)
+                // Replace whatever is in the fragment_container view with this fragment,
+                // and add the transaction to the back stack so the user can navigate back
+                .add(R.id.fragment_container, newFragment)
                 .addToBackStack(null)
+                // Commit the transaction
                 .commit();
 
-        // Replace whatever is in the fragment_container view with this fragment,
-        // and add the transaction to the back stack so the user can navigate back
-        fragmentTransaction.replace(R.id.event_fragment, newFragment);
-
-        // Commit the transaction
-        fragmentTransaction.commit();
     }
-
 
 }

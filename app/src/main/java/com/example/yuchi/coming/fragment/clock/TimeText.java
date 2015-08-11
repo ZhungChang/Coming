@@ -1,4 +1,4 @@
-package com.example.yuchi.coming.common.clock;
+package com.example.yuchi.coming.fragment.clock;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

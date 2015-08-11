@@ -8,7 +8,7 @@
     android:id="@+id/sample_main_layout">
 
     <fragment
-        android:name="com.example.yuchi.coming.common.clock.TimeFragment"
+        android:name="com.example.yuchi.coming.fragment.clock.TimeFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"/>
@@ -19,7 +19,7 @@
         android:background="@android:color/darker_gray"/>
 
     <FrameLayout
-        android:id="@+id/event_fragment"
+        android:id="@+id/fragment_container"
         android:layout_weight="4"
         android:layout_width="match_parent"
         android:layout_height="0px" />

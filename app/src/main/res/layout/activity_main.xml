@@ -9,6 +9,8 @@
 
     <fragment
         android:name="com.example.yuchi.coming.fragment.clock.TimeFragment"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"/>
@@ -16,10 +18,12 @@
     <View
         android:layout_width="wrap_content"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
+        android:background="#000000"/>
 
     <FrameLayout
         android:id="@+id/fragment_container"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:layout_weight="4"
         android:layout_width="match_parent"
         android:layout_height="0px" />

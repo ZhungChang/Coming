@@ -3,18 +3,26 @@ package com.example.yuchi.coming.fragment;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.example.yuchi.coming.R;
+import com.example.yuchi.coming.common.database.TimerDbHelper;
 
 /**
  * Created by choes_000 on 2015/3/16.
  * Connecting the TimeFragment.
  */
 public class MainActivity extends Activity{
+
+    private TimerDbHelper timerdbhelper;
+
+    //If table is null.
+    private boolean tableNull;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,6 +37,7 @@ public class MainActivity extends Activity{
             if (savedInstanceState != null){
                 return;
             }
+            SQLiteDatabase db = timerdbhelper.getReadableDatabase();
             FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -66,6 +75,15 @@ public class MainActivity extends Activity{
         }
     }
 
+    public boolean getCount() {
+        int result = 0;
+        Cursor cursor = timerdbhelper.rawQuery("SELECT COUNT(*) FROM " + entry, null);
+
+        if (cursor.moveToNext()) {
+            result = cursor.getInt(0);
+        }
+
+        return result;
 
     public void newEvent(){
         // Otherwise, we're in the one-pane layout and must swap frags...

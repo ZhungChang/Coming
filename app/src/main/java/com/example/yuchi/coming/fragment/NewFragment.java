@@ -32,9 +32,6 @@ public class NewFragment extends Fragment {
     //Numberpickers that sets up the alarm time
     private NumberPicker hrPicker,minPicker,secPicker;
 
-    //Button mEnter that saves the data into database
-    private Button mEnter;
-
     //Edittext mEdit that saves the content.
     private EditText mEdit;
 
@@ -169,7 +166,6 @@ public class NewFragment extends Fragment {
                 // Replace whatever is in the fragment_container view with this fragment,
                 // and add the transaction to the back stack so the user can navigate back
                 .add(R.id.fragment_container, eventFragment)
-                .addToBackStack(null)
                 // Commit the transaction
                 .commit();
     }

@@ -1,9 +1,9 @@
 package com.example.yuchi.coming.fragment;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
@@ -20,9 +20,7 @@ import com.example.yuchi.coming.common.database.TimerDbHelper;
 public class MainActivity extends Activity{
 
     private TimerDbHelper timerdbhelper;
-
-    //If table is null.
-    private boolean tableNull;
+    private SQLiteDatabase db;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,20 +31,23 @@ public class MainActivity extends Activity{
         // then we don't need to do anything and should return or else
         // we could end up with overlapping fragments.
         if (findViewById(R.id.sample_main_layout) != null) {
-
             if (savedInstanceState != null){
                 return;
             }
-            SQLiteDatabase db = timerdbhelper.getReadableDatabase();
-            FragmentManager fragmentManager = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            //Open the database, if null, create a database.
+            openDatabase();
 
-            EventFragment fragment = new EventFragment();
-            fragmentTransaction.replace(R.id.fragment_container, fragment);
-            fragmentTransaction.commit();
+            //if the database is not include any data, open the empty fragment
+            //Or load the event page.
+            if(timerdbhelper.hasEvent(db)){
+                EventFragment fragment = new EventFragment();
+                openPage(fragment);
+            }else {
+                EmptyFragment fragment = new EmptyFragment();
+                openPage(fragment);
+            }
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -75,30 +76,24 @@ public class MainActivity extends Activity{
         }
     }
 
-    public boolean getCount() {
-        int result = 0;
-        Cursor cursor = timerdbhelper.rawQuery("SELECT COUNT(*) FROM " + entry, null);
-
-        if (cursor.moveToNext()) {
-            result = cursor.getInt(0);
-        }
-
-        return result;
-
     public void newEvent(){
         // Otherwise, we're in the one-pane layout and must swap frags...
-
         // Create fragment and give it an argument for the selected article
         NewFragment newFragment = new NewFragment();
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        getFragmentManager().beginTransaction()
-                // Replace whatever is in the fragment_container view with this fragment,
-                // and add the transaction to the back stack so the user can navigate back
-                .add(R.id.fragment_container, newFragment)
-                .addToBackStack(null)
-                // Commit the transaction
-                .commit();
-
+        openPage(newFragment);
     }
 
+    public SQLiteDatabase openDatabase(){
+        timerdbhelper = new TimerDbHelper(this);
+        db = timerdbhelper.getReadableDatabase();
+        return db;
+    }
+
+    public void openPage(Fragment f){
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        fragmentTransaction.replace(R.id.fragment_container, f);
+        fragmentTransaction.commit();
+    }
 }

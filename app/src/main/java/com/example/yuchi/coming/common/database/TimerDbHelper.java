@@ -1,10 +1,9 @@
 package com.example.yuchi.coming.common.database;
 
-import static com.example.yuchi.coming.common.database.TimerContract.FeedEntry.*;
-import static com.example.yuchi.coming.common.database.TimerContract.*;
-
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -13,26 +12,31 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class TimerDbHelper extends SQLiteOpenHelper {
 
+    public static final String TABLE_NAME = "entry";
+    public static final String COLUMN_NAME_NULLABLE = "null";
+
+    public static final String COLUMN_NAME_ENTRY_ID = "_id";
+    public static final String COLUMN_EVENT_CONTENT = "event";
+    public static final String COLUMN_TIMER_CHANGETOSECOND = "second";
+
+    private TimerPack timerPack;
     /* Database name*/
     public static final String DATABASE_NAME = "data.db";
     // If you change the database schema, you must increment the database version.
     public static final int DATABASE_VERSION = 1;
-    static final String COMMA_SEP = ",";
+    static final String COMMA_SEP = ", ";
 
     private static final String SQL_CREATE_ENTRIES =
               "CREATE TABLE " + TABLE_NAME + " (" +
-              COLUMN_NAME_ENTRY_ID + "INTEGER PRIMARY KEY AUTOINCREMENT" + COMMA_SEP +
-              COLUMN_EVENT_CONTENT + "CHAR" + COMMA_SEP +
-              COLUMN_TIMER_CHANGETOSECOND + "INTEGER NOT NULL" + COMMA_SEP  + ")";
+              COLUMN_NAME_ENTRY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT" + COMMA_SEP +
+              COLUMN_EVENT_CONTENT + " TEXT NOT NULL" + COMMA_SEP +
+              COLUMN_TIMER_CHANGETOSECOND + " INTEGER NOT NULL" +");";
+
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + TABLE_NAME;
 
     public TimerDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-    }
-
-    public TimerDbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
     }
 
     @Override
@@ -50,21 +54,54 @@ public class TimerDbHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    public long add(TimerPack timerPack){
-        // Gets the data repository in write mode
-        SQLiteDatabase db = getWritableDatabase();
+    public long add(SQLiteDatabase db){
 
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
 
-        values.put(FeedEntry.COLUMN_EVENT_CONTENT, timerPack.getEventStr());
-        values.put(FeedEntry.COLUMN_TIMER_CHANGETOSECOND, timerPack.getTotalSecond());
+        values.put(COLUMN_EVENT_CONTENT, timerPack.getEventStr());
+        values.put(COLUMN_TIMER_CHANGETOSECOND, timerPack.getTotalSecond());
 
         // Insert the new row, returning the primary key value of the new row
         long newRowId;
         return  newRowId = db.insert(
-                    FeedEntry.TABLE_NAME,
-                    FeedEntry.COLUMN_NAME_NULLABLE,
+                    TABLE_NAME,
+                    COLUMN_NAME_NULLABLE,
                     values);
+    }
+
+    public boolean hasEvent(SQLiteDatabase db){
+        Cursor c = fetchEvents(db);
+        return c.moveToFirst();
+    }
+
+    public Cursor fetchEvents(SQLiteDatabase db){
+        return db.query(
+                TABLE_NAME, //Database name.
+                null,           //Column name.
+                null,
+                null,
+                null,
+                null,
+                null);
+    }
+
+    public Cursor fetchNote(SQLiteDatabase db, long rowId) {
+
+        Cursor mCursor =
+                db.query(true,
+                        TABLE_NAME,
+                        new String[] {COLUMN_NAME_ENTRY_ID, COLUMN_EVENT_CONTENT, COLUMN_TIMER_CHANGETOSECOND},
+                        COLUMN_NAME_ENTRY_ID + "=" + rowId,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null);
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+        return mCursor;
+
     }
 }

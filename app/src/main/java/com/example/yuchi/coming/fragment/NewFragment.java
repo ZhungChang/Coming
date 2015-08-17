@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import com.example.yuchi.coming.common.database.TimerPack;
  */
 public class NewFragment extends Fragment {
 
+    private SQLiteDatabase mDb;
     Menu menu;
 
     //Numberpickers that sets up the alarm time
@@ -146,7 +148,7 @@ public class NewFragment extends Fragment {
 
         TimerPack timerPack = new TimerPack(event,Sec);
 
-        long rowId = timerdbhelper.add(timerPack);
+        long rowId = timerdbhelper.add(mDb);
         if (rowId != -1) {
             Toast.makeText(context, R.string.msg_InsertSuccess,
                     Toast.LENGTH_SHORT).show();

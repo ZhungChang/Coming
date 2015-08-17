@@ -41,10 +41,10 @@ public class MainActivity extends Activity{
             //Or load the event page.
             if(timerdbhelper.hasEvent(db)){
                 EventFragment fragment = new EventFragment();
-                openPage(fragment);
+                createPage(fragment);
             }else {
                 EmptyFragment fragment = new EmptyFragment();
-                openPage(fragment);
+                createPage(fragment);
             }
         }
     }
@@ -89,11 +89,22 @@ public class MainActivity extends Activity{
         return db;
     }
 
-    public void openPage(Fragment f){
+    public void createPage(Fragment f){
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         fragmentTransaction.replace(R.id.fragment_container, f);
+        fragmentTransaction.commit();
+    }
+
+    public void openPage(Fragment f){
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        // Replace whatever is in the fragment_container view with this fragment,
+        // and add the transaction to the back stack so the user can navigate back
+        fragmentTransaction.replace(R.id.fragment_container, f);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 }

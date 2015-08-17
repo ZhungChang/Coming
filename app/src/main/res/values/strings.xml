@@ -11,7 +11,7 @@
     <string name="setting_timer">Set up a countdown.</string>
     <string name="empty">No data.</string>
 
-    <string name="msg_NameIsInvalid">The content is null.</string>
+    <string name="msg_NameIsInvalid">Please write your event.</string>
     <string name="msg_InsertSuccess">Saved successfully.</string>
     <string name="msg_InsertFail">Can\'t save.</string>
 

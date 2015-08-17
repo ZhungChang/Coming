@@ -112,10 +112,10 @@ public class NewFragment extends Fragment {
 
         //noinspection SimplifiableIfStatement
         switch (item.getItemId()) {
-            case R.id.action_new:
+            case R.id.action_add:
                 //Add a new event to the database.
                 InsertClick();
-                changeFragment();
+
                 return true;
             case android.R.id.home:
                 getFragmentManager().popBackStack();
@@ -156,6 +156,8 @@ public class NewFragment extends Fragment {
             Toast.makeText(context, R.string.msg_InsertSuccess,
                     Toast.LENGTH_SHORT).show();
         }
+
+        changeFragment();
     }
 
     public void changeFragment(){

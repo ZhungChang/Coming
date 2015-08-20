@@ -39,7 +39,7 @@ public class MainActivity extends Activity{
 
             //if the database is not include any data, open the empty fragment
             //Or load the event page.
-            if(timerdbhelper.hasEvent(db)){
+            if(timerdbhelper.hasEvent()){
                 EventFragment fragment = new EventFragment();
                 createPage(fragment);
             }else {

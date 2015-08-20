@@ -28,8 +28,10 @@ import com.example.yuchi.coming.common.database.TimerPack;
  */
 public class NewFragment extends Fragment {
 
-    private SQLiteDatabase mDb;
-    Menu menu;
+    //Get view of activity.
+    private View view;
+
+    private Menu menu;
 
     //Numberpickers that sets up the alarm time
     private NumberPicker hrPicker,minPicker,secPicker;
@@ -49,8 +51,10 @@ public class NewFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setHasOptionsMenu(true);
         getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+
         timerdbhelper = new TimerDbHelper(getActivity());
 
         // END_INCLUDE (inflate_set_custom_view)
@@ -62,16 +66,16 @@ public class NewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         //Inflate the fragment_new layout
-        View v = inflater.inflate(R.layout.fragment_new, container, false);
+        view = inflater.inflate(R.layout.fragment_new, container, false);
 
         Sec = 0;
 
         //Connect with the space of inputing event.
-        mEdit = (EditText) v.findViewById(R.id.new_contentEdit);
+        mEdit = (EditText) view.findViewById(R.id.new_contentEdit);
 
-        hrPicker = (NumberPicker) v.findViewById(R.id.hr);
-        minPicker = (NumberPicker) v.findViewById(R.id.min);
-        secPicker = (NumberPicker) v.findViewById(R.id.sec);
+        hrPicker = (NumberPicker) view.findViewById(R.id.hr);
+        minPicker = (NumberPicker) view.findViewById(R.id.min);
+        secPicker = (NumberPicker) view.findViewById(R.id.sec);
 
         hrPicker.setMaxValue(23);
         hrPicker.setMinValue(0);
@@ -100,7 +104,7 @@ public class NewFragment extends Fragment {
                 Sec = Sec + newVal;
             }
         });
-        return v;
+        return view;
     }
 
 
@@ -115,8 +119,8 @@ public class NewFragment extends Fragment {
             case R.id.action_add:
                 //Add a new event to the database.
                 InsertClick();
-
                 return true;
+
             case android.R.id.home:
                 getFragmentManager().popBackStack();
                 getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
@@ -132,28 +136,24 @@ public class NewFragment extends Fragment {
         //Show the menu menu_new.
         this.menu = menu;
         inflater.inflate(R.menu.menu_new, menu);
-
         //Hide the menu  menu_main.
         menu.setGroupVisible(R.id.main_menu_group, false);
     }
 
     public void InsertClick() {
-        Context context = getActivity().getApplicationContext();
+
         String event = mEdit.getText().toString().trim();
         if (event.length() <= 0) {
-            Toast.makeText(context, R.string.msg_NameIsInvalid,
-                    Toast.LENGTH_SHORT).show();
+            mEdit.setError("The field should not be blank.");
             return;
         }
 
-        TimerPack timerPack = new TimerPack(event,Sec);
-
-        long rowId = timerdbhelper.add(mDb);
+        long rowId = timerdbhelper.add(new TimerPack(event,Sec));
         if (rowId != -1) {
-            Toast.makeText(context, R.string.msg_InsertSuccess,
+            Toast.makeText(getActivity(), R.string.msg_InsertSuccess,
                     Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(context, R.string.msg_InsertSuccess,
+            Toast.makeText(getActivity(), R.string.msg_InsertSuccess,
                     Toast.LENGTH_SHORT).show();
         }
 
@@ -169,7 +169,7 @@ public class NewFragment extends Fragment {
         getFragmentManager().beginTransaction()
                 // Replace whatever is in the fragment_container view with this fragment,
                 // and add the transaction to the back stack so the user can navigate back
-                .add(R.id.fragment_container, eventFragment)
+                .replace(R.id.fragment_container, eventFragment)
                 // Commit the transaction
                 .commit();
     }

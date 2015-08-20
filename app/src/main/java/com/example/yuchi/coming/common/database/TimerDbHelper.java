@@ -19,7 +19,6 @@ public class TimerDbHelper extends SQLiteOpenHelper {
     public static final String COLUMN_EVENT_CONTENT = "event";
     public static final String COLUMN_TIMER_CHANGETOSECOND = "second";
 
-    private TimerPack timerPack;
     /* Database name*/
     public static final String DATABASE_NAME = "data.db";
     // If you change the database schema, you must increment the database version.
@@ -54,28 +53,30 @@ public class TimerDbHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    public long add(SQLiteDatabase db){
+    public long add(TimerPack timerPack){
 
+        SQLiteDatabase db = this.getWritableDatabase();
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
 
         values.put(COLUMN_EVENT_CONTENT, timerPack.getEventStr());
         values.put(COLUMN_TIMER_CHANGETOSECOND, timerPack.getTotalSecond());
 
-        // Insert the new row, returning the primary key value of the new row
-        long newRowId;
-        return  newRowId = db.insert(
-                    TABLE_NAME,
-                    COLUMN_NAME_NULLABLE,
-                    values);
+        return db.insert(
+                TABLE_NAME,
+                COLUMN_NAME_NULLABLE,
+                values);
     }
 
-    public boolean hasEvent(SQLiteDatabase db){
-        Cursor c = fetchEvents(db);
+    public boolean hasEvent(){
+        Cursor c = fetchEvents();
         return c.moveToFirst();
     }
 
-    public Cursor fetchEvents(SQLiteDatabase db){
+    public Cursor fetchEvents(){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
         return db.query(
                 TABLE_NAME, //Database name.
                 null,           //Column name.
@@ -86,7 +87,9 @@ public class TimerDbHelper extends SQLiteOpenHelper {
                 null);
     }
 
-    public Cursor fetchNote(SQLiteDatabase db, long rowId) {
+    public Cursor fetchNote(long rowId) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
 
         Cursor mCursor =
                 db.query(true,

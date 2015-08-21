@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.yuchi.coming.R;
+
 
 /**
  * Created by choes_000 on 2015/3/29.
@@ -46,7 +48,7 @@ public class EventAdapter extends BaseAdapter{
         ViewHolder viewholder;
         if(convertView == null){
             viewholder = new ViewHolder();
-            convertView = mInflater.inflate(R.layout.list_item, null);
+            convertView = mInflater.inflate(R.layout.item_event_list, null);
         }
         return null;
     }

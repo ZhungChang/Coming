@@ -7,6 +7,13 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.yuchi.coming.R;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by choes_000 on 2015/4/6.
  */
@@ -53,6 +60,7 @@ public class TimerDbHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
+    //Insert data
     public long add(TimerPack timerPack){
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -68,10 +76,50 @@ public class TimerDbHelper extends SQLiteOpenHelper {
                 values);
     }
 
+    //Get Row Count
+    public int getCount() {
+        String countQuery = "SELECT  * FROM " + TABLE_NAME;
+        int count = 0;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(countQuery, null);
+        if (cursor.moveToNext()) {
+            count = cursor.getInt(0);
+        }
+        return count;
+    }
+
+    //Delete Query
+    public void removeFav(int id) {
+        String countQuery = "DELETE FROM " + TABLE_NAME + " where " + COLUMN_NAME_ENTRY_ID + "= " + id ;
+        SQLiteDatabase db = this.getReadableDatabase();
+        db.execSQL(countQuery);
+    }
+
     public boolean hasEvent(){
         Cursor c = fetchEvents();
         return c.moveToFirst();
     }
+
+    // 讀取所有記事資料
+    private List<Map<String, Object>> getData()
+    {
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        Map<String, Object> map;
+        if (cursor.moveToFirst()) {
+            do {
+                map = new HashMap<String, Object>();
+                map.put("title", "跆拳道");
+                map.put("info", "快乐源于生活...");
+                list.add(map);
+            } while (cursor.moveToNext());
+        }
+        return list;
+    }
+
 
     public Cursor fetchEvents(){
 
@@ -85,6 +133,22 @@ public class TimerDbHelper extends SQLiteOpenHelper {
                 null,
                 null,
                 null);
+    }
+
+    //Get FavList
+    public List<FavoriteList> getFavList(){
+
+        List<FavoriteList> FavList = new ArrayList<FavoriteList>();
+        if (cursor.moveToFirst()) {
+            do {
+                FavoriteList list = new FavoriteList();
+                list.setId(Integer.parseInt(cursor.getString(0)));
+                list.setName(cursor.getString(1));
+                list.setAge(cursor.getString(2));
+                FavList.add(list);
+            } while (cursor.moveToNext());
+        }
+        return FavList;
     }
 
     public Cursor fetchNote(long rowId) {

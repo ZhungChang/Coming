@@ -13,7 +13,6 @@ import com.example.yuchi.coming.common.database.TimerDbHelper;
 
 import org.w3c.dom.Text;
 
-
 /**
  * Created by choes_000 on 2015/3/29.
  */
@@ -24,13 +23,15 @@ public class EventAdapter extends BaseAdapter{
 
     public Cursor mCursor;
 
+    private Context context;
+
     private EventAdapter(Context context, Cursor cursor)
     {
         super();
 
         //According to the context
         this.mInflater = LayoutInflater.from(context);
-
+        this.context = context;
         mCursor = cursor;
     }
 
@@ -59,10 +60,8 @@ public class EventAdapter extends BaseAdapter{
         if(convertView == null){
             convertView = mInflater.inflate(R.layout.item_event_list, null);
             viewholder = new ViewHolder();
-
             //viewholder.content = (TextView) convertView.findViewById(R.id.)
             convertView.setTag(viewholder);
-
         }else{
             viewholder = (ViewHolder) convertView.getTag();}
         return null;

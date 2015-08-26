@@ -102,21 +102,26 @@ public class TimerDbHelper extends SQLiteOpenHelper {
     }
 
     // 讀取所有記事資料
-    private List<Map<String, Object>> getData()
+    public List<HashMap<String, Object>> getData()
     {
         String selectQuery = "SELECT  * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getWritableDatabase();
+        String[] columns = {
+                COLUMN_NAME_ENTRY_ID, COLUMN_EVENT_CONTENT, COLUMN_TIMER_CHANGETOSECOND
+        };
         Cursor cursor = db.rawQuery(selectQuery, null);
-        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-        Map<String, Object> map;
+        List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+        HashMap<String, Object> map;
         if (cursor.moveToFirst()) {
             do {
                 map = new HashMap<String, Object>();
-                map.put("title", "跆拳道");
-                map.put("info", "快乐源于生活...");
+                map.put(COLUMN_NAME_ENTRY_ID, cursor.getInt(0));
+                map.put(COLUMN_EVENT_CONTENT, cursor.getString(1));
+                map.put(COLUMN_TIMER_CHANGETOSECOND, cursor.getInt(2));
                 list.add(map);
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return list;
     }
 
@@ -133,22 +138,6 @@ public class TimerDbHelper extends SQLiteOpenHelper {
                 null,
                 null,
                 null);
-    }
-
-    //Get FavList
-    public List<FavoriteList> getFavList(){
-
-        List<FavoriteList> FavList = new ArrayList<FavoriteList>();
-        if (cursor.moveToFirst()) {
-            do {
-                FavoriteList list = new FavoriteList();
-                list.setId(Integer.parseInt(cursor.getString(0)));
-                list.setName(cursor.getString(1));
-                list.setAge(cursor.getString(2));
-                FavList.add(list);
-            } while (cursor.moveToNext());
-        }
-        return FavList;
     }
 
     public Cursor fetchNote(long rowId) {

@@ -11,7 +11,10 @@ import android.widget.TextView;
 import com.example.yuchi.coming.R;
 import com.example.yuchi.coming.common.database.TimerDbHelper;
 
-import org.w3c.dom.Text;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by choes_000 on 2015/3/29.
@@ -21,24 +24,23 @@ public class EventAdapter extends BaseAdapter{
     //Inflate the view.
     private LayoutInflater mInflater;
 
-    public Cursor mCursor;
-
     private Context context;
 
-    private EventAdapter(Context context, Cursor cursor)
+    private List<HashMap<String, Objects>> eventList;
+
+    private EventAdapter(Context context, List<HashMap<String, Objects>> eventList)
     {
         super();
-
+        this.eventList = eventList;
         //According to the context
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
-        mCursor = cursor;
     }
 
     //Get the count of items which is the array recieved from constructor or the index of a set.
     @Override
     public int getCount() {
-        return mCursor.getCount();
+        return eventList.size();
     }
 
     //Get the item in the position where is the data or the set live in.

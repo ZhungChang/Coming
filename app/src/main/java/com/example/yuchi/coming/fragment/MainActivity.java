@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.JetPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,6 +14,10 @@ import android.view.MenuItem;
 
 import com.example.yuchi.coming.R;
 import com.example.yuchi.coming.common.database.TimerDbHelper;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by choes_000 on 2015/3/16.
@@ -21,6 +27,7 @@ public class MainActivity extends Activity{
 
     private TimerDbHelper timerdbhelper;
     private SQLiteDatabase db;
+    private List<HashMap<String, Object>> list;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,6 +47,7 @@ public class MainActivity extends Activity{
             //if the database is not include any data, open the empty fragment
             //Or load the event page.
             if(timerdbhelper.hasEvent()){
+                loadData();
                 EventFragment fragment = new EventFragment();
                 createPage(fragment);
             }else {
@@ -100,11 +108,15 @@ public class MainActivity extends Activity{
     public void openPage(Fragment f){
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack so the user can navigate back
         fragmentTransaction.replace(R.id.fragment_container, f);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    public void loadData(){
+        list = timerdbhelper.getData();
+
     }
 }

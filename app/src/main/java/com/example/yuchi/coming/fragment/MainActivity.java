@@ -4,20 +4,15 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.media.JetPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.example.yuchi.coming.R;
-import com.example.yuchi.coming.common.database.TimerDbHelper;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import com.example.yuchi.coming.TimerDbHelper;
 
 /**
  * Created by choes_000 on 2015/3/16.
@@ -25,9 +20,10 @@ import java.util.List;
  */
 public class MainActivity extends Activity{
 
+    private static final String TAG = "MainActivity";
+
     private TimerDbHelper timerdbhelper;
     private SQLiteDatabase db;
-    private List<HashMap<String, Object>> list;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,10 +43,11 @@ public class MainActivity extends Activity{
             //if the database is not include any data, open the empty fragment
             //Or load the event page.
             if(timerdbhelper.hasEvent()){
-                loadData();
+                Log.i(TAG, "Exists  events");
                 EventFragment fragment = new EventFragment();
                 createPage(fragment);
             }else {
+                Log.i(TAG, "Do not exist any events");
                 EmptyFragment fragment = new EmptyFragment();
                 createPage(fragment);
             }
@@ -62,7 +59,6 @@ public class MainActivity extends Activity{
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
-
         return true;
     }
 
@@ -113,10 +109,5 @@ public class MainActivity extends Activity{
         fragmentTransaction.replace(R.id.fragment_container, f);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
-    }
-
-    public void loadData(){
-        list = timerdbhelper.getData();
-
     }
 }

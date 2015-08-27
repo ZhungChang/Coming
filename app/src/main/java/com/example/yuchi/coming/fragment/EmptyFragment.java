@@ -13,6 +13,8 @@ import com.example.yuchi.coming.R;
  */
 public class EmptyFragment extends Fragment {
 
+    private static final String TAG = "EmptyFragment";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
     Bundle savedInstanceState){

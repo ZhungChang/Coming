@@ -14,13 +14,15 @@ import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import com.example.yuchi.coming.R;
-import com.example.yuchi.coming.common.database.TimerDbHelper;
-import com.example.yuchi.coming.common.database.TimerPack;
+import com.example.yuchi.coming.TimerDbHelper;
+import com.example.yuchi.coming.TimerPack;
 
 /**
  * Created by choes_000 on 2015/3/29.
  */
 public class NewFragment extends Fragment {
+
+    private static final String TAG = "NewFragment";
 
     //Get view of activity.
     private View view;
@@ -37,6 +39,8 @@ public class NewFragment extends Fragment {
     private int Sec;
 
     private TimerDbHelper timerdbhelper;
+
+    private EventAdapter mAdapter;
 
     public NewFragment() {
         // Required empty public constructor
@@ -114,7 +118,6 @@ public class NewFragment extends Fragment {
                 //Add a new event to the database.
                 InsertClick();
                 return true;
-
             case android.R.id.home:
                 getFragmentManager().popBackStack();
                 getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);

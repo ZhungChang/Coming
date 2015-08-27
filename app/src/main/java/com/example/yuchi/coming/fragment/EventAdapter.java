@@ -1,7 +1,7 @@
 package com.example.yuchi.coming.fragment;
 
 import android.content.Context;
-import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,37 +9,34 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.yuchi.coming.R;
-import com.example.yuchi.coming.common.database.TimerDbHelper;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by choes_000 on 2015/3/29.
  */
 public class EventAdapter extends BaseAdapter{
 
+    private static final String TAG = "EventAdapter";
+
     //Inflate the view.
     private LayoutInflater mInflater;
 
-    private Context context;
+    private List<HashMap<String, Object>> eventList;
 
-    private List<HashMap<String, Objects>> eventList;
-
-    private EventAdapter(Context context, List<HashMap<String, Objects>> eventList)
+    public EventAdapter(Context context, List<HashMap<String, Object>> eventList)
     {
         super();
         this.eventList = eventList;
         //According to the context
         this.mInflater = LayoutInflater.from(context);
-        this.context = context;
     }
 
     //Get the count of items which is the array recieved from constructor or the index of a set.
     @Override
     public int getCount() {
+        Log.d(TAG, "Count :" + eventList.size());
         return eventList.size();
     }
 
@@ -62,7 +59,7 @@ public class EventAdapter extends BaseAdapter{
         if(convertView == null){
             convertView = mInflater.inflate(R.layout.item_event_list, null);
             viewholder = new ViewHolder();
-            //viewholder.content = (TextView) convertView.findViewById(R.id.)
+            viewholder.content = (TextView) convertView.findViewById(R.id.event_time);
             convertView.setTag(viewholder);
         }else{
             viewholder = (ViewHolder) convertView.getTag();}

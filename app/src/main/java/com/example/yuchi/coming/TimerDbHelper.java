@@ -1,23 +1,22 @@
-package com.example.yuchi.coming.common.database;
+package com.example.yuchi.coming;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import com.example.yuchi.coming.R;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by choes_000 on 2015/4/6.
  */
 public class TimerDbHelper extends SQLiteOpenHelper {
+
+    private static final String TAG = "TimerDbHelper";
 
     public static final String TABLE_NAME = "entry";
     public static final String COLUMN_NAME_NULLABLE = "null";
@@ -98,6 +97,8 @@ public class TimerDbHelper extends SQLiteOpenHelper {
 
     public boolean hasEvent(){
         Cursor c = fetchEvents();
+        int dbSize = c.getCount();
+        Log.i(TAG, "The db size is " + dbSize + ".");
         return c.moveToFirst();
     }
 

@@ -67,7 +67,10 @@ public class TimerDbHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         values.put(COLUMN_EVENT_CONTENT, timerPack.getEventStr());
+        Log.i(TAG, timerPack.getEventStr());
+
         values.put(COLUMN_TIMER_CHANGETOSECOND, timerPack.getTotalSecond());
+        Log.i(TAG, "" + timerPack.getTotalSecond());
 
         return db.insert(
                 TABLE_NAME,
@@ -106,7 +109,7 @@ public class TimerDbHelper extends SQLiteOpenHelper {
     public List<HashMap<String, Object>> getData()
     {
         String selectQuery = "SELECT  * FROM " + TABLE_NAME;
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         String[] columns = {
                 COLUMN_NAME_ENTRY_ID, COLUMN_EVENT_CONTENT, COLUMN_TIMER_CHANGETOSECOND
         };
@@ -117,15 +120,17 @@ public class TimerDbHelper extends SQLiteOpenHelper {
             do {
                 map = new HashMap<String, Object>();
                 map.put(COLUMN_NAME_ENTRY_ID, cursor.getInt(0));
+                Log.i(TAG, "The no. is: " + cursor.getInt(0));
                 map.put(COLUMN_EVENT_CONTENT, cursor.getString(1));
+                Log.i(TAG, "The event is: " + cursor.getString(1));
                 map.put(COLUMN_TIMER_CHANGETOSECOND, cursor.getInt(2));
+                Log.i(TAG, "The second is: " + cursor.getInt(2));
                 list.add(map);
             } while (cursor.moveToNext());
         }
         cursor.close();
         return list;
     }
-
 
     public Cursor fetchEvents(){
 

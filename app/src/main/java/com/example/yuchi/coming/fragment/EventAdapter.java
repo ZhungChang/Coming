@@ -9,7 +9,10 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.yuchi.coming.R;
+import com.example.yuchi.coming.TimerDbHelper;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -36,20 +39,20 @@ public class EventAdapter extends BaseAdapter{
     //Get the count of items which is the array recieved from constructor or the index of a set.
     @Override
     public int getCount() {
-        Log.d(TAG, "Count :" + eventList.size());
+        Log.i(TAG, "Count :" + eventList.size());
         return eventList.size();
     }
 
     //Get the item in the position where is the data or the set live in.
     @Override
     public Object getItem(int position) {
-        return position;
+        return null;
     }
 
     //Get the ID of the item in the position, can be represent by the value of the postion.
     @Override
     public long getItemId(int position) {
-        return position;
+        return 0;
     }
 
     //The convertView is setting to the View of the item in this position.
@@ -59,11 +62,31 @@ public class EventAdapter extends BaseAdapter{
         if(convertView == null){
             convertView = mInflater.inflate(R.layout.item_event_list, null);
             viewholder = new ViewHolder();
-            viewholder.content = (TextView) convertView.findViewById(R.id.event_time);
+            viewholder.content = (TextView) convertView.findViewById(R.id.event);
+            viewholder.time = (TextView) convertView.findViewById(R.id.event_time);
             convertView.setTag(viewholder);
+        }else{viewholder = (ViewHolder) convertView.getTag();}
+
+        //Set text in the event field.
+        String text = (String) eventList.get(position).get("event");
+        //Set seconds in the time field.
+        int sec = (int) eventList.get(position).get("second");
+
+        long outputTime;
+
+        if(sec*1000 - System.currentTimeMillis() > 0){
+            outputTime = System.currentTimeMillis() - sec*1000;
         }else{
-            viewholder = (ViewHolder) convertView.getTag();}
-        return null;
+            outputTime =  86399000 - System.currentTimeMillis() + sec*1000;
+        }
+
+        Date date = new java.util.Date(outputTime);
+        String result = new SimpleDateFormat("hh:mm:ss").format(date);
+
+        viewholder.content.setText(text);
+        viewholder.time.setText(result);
+
+        return convertView;
     }
 
     static class ViewHolder

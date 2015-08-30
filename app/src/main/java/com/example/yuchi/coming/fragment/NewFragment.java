@@ -117,6 +117,7 @@ public class NewFragment extends Fragment {
             case R.id.action_add:
                 //Add a new event to the database.
                 InsertClick();
+                getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
                 return true;
             case android.R.id.home:
                 getFragmentManager().popBackStack();

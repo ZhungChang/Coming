@@ -80,20 +80,26 @@ public class EventAdapter extends BaseAdapter{
         //Set seconds in the time field.
         int sec = (int) eventList.get(position).get("second");
 
-        int local = timeZone.getRawOffset();
+        int local = timeZone.getRawOffset()/1000;
 
-        Log.v(TAG,"local: " + local);
+        int output;
 
-        if(sec - system > 0){
-            local = sec - system;
+        int currentTime = (int) (System.currentTimeMillis()/1000) % 86400 + local;
+
+        Log.v(TAG,"local: " + local + " currentTime: "+ currentTime);
+
+        if(sec - currentTime > 0){
+            output = sec - currentTime;
         }else{
-            local =  86399 - system + sec;
+            output =  86400 - currentTime + sec;
         }
 
-        Log.i(TAG, " System time:"+system+" Cal: " + local +" Saved seconds:"+ sec);
+        Log.i(TAG, " System time:"+currentTime+" Cal: " + local +" Saved seconds:"+ sec);
 
-        Date date = new Date(local);
-        String result = new SimpleDateFormat("HH:mm:ss").format(date);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        //Make the timezone of the default Local with SimpleDataFormat to UTC.
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        String result = sdf.format(new Date(output*1000));
 
         viewholder.content.setText(text);
         viewholder.time.setText(result);

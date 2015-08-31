@@ -3,6 +3,7 @@ package com.example.yuchi.coming.fragment;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,7 +37,7 @@ public class NewFragment extends Fragment {
     private EditText mEdit;
 
     //Integer tmp that saves the time setting.
-    private int Sec;
+    private int Hr,Min,Sec, Total;
 
     private TimerDbHelper timerdbhelper;
 
@@ -52,6 +53,10 @@ public class NewFragment extends Fragment {
 
         setHasOptionsMenu(true);
         getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+        Hr = 0 ;
+        Min = 0;
+        Sec = 0;
+        Total = 0;
 
         timerdbhelper = new TimerDbHelper(getActivity());
 
@@ -65,8 +70,6 @@ public class NewFragment extends Fragment {
 
         //Inflate the fragment_new layout
         view = inflater.inflate(R.layout.fragment_new, container, false);
-
-        Sec = 0;
 
         //Connect with the space of inputing event.
         mEdit = (EditText) view.findViewById(R.id.new_contentEdit);
@@ -85,26 +88,28 @@ public class NewFragment extends Fragment {
         hrPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                Sec = Sec + newVal * 60 * 60;
+                Hr = newVal * 3600;
+                Log.v(TAG,"HR: sec: "+Sec+ " oldVal: " + oldVal + " newVal: " + newVal);
             }
         });
 
         minPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                Sec = Sec + newVal * 60;
+                Min = newVal * 60;
+                Log.v(TAG, "Min: sec: "+Sec+ "  oldVal: " + oldVal + " newVal: " + newVal);
             }
         });
 
         secPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                Sec = Sec + newVal;
+                Sec = newVal;
+                Log.v(TAG, "Sec: sec: "+Sec+ " oldVal: " + oldVal + " newVal: " + newVal);
             }
         });
         return view;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -146,7 +151,9 @@ public class NewFragment extends Fragment {
             return;
         }
 
-        long rowId = timerdbhelper.add(new TimerPack(event,Sec));
+        Total = Sec + Min + Hr;
+
+        long rowId = timerdbhelper.add(new TimerPack(event,Total));
         if (rowId != -1) {
             Toast.makeText(getActivity(), R.string.msg_InsertSuccess,
                     Toast.LENGTH_SHORT).show();
@@ -154,7 +161,7 @@ public class NewFragment extends Fragment {
             Toast.makeText(getActivity(), R.string.msg_InsertSuccess,
                     Toast.LENGTH_SHORT).show();
         }
-
+        
         changeFragment();
     }
 

@@ -11,10 +11,14 @@ import android.widget.TextView;
 import com.example.yuchi.coming.R;
 import com.example.yuchi.coming.TimerDbHelper;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.SimpleTimeZone;
+import java.util.TimeZone;
 
 /**
  * Created by choes_000 on 2015/3/29.
@@ -27,6 +31,10 @@ public class EventAdapter extends BaseAdapter{
     private LayoutInflater mInflater;
 
     private List<HashMap<String, Object>> eventList;
+
+    private TimeZone timeZone;
+
+    //private Date date;
 
     public EventAdapter(Context context, List<HashMap<String, Object>> eventList)
     {
@@ -54,12 +62,12 @@ public class EventAdapter extends BaseAdapter{
     public long getItemId(int position) {
         return 0;
     }
-
     //The convertView is setting to the View of the item in this position.
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewholder;
         if(convertView == null){
+            timeZone = TimeZone.getDefault();
             convertView = mInflater.inflate(R.layout.item_event_list, null);
             viewholder = new ViewHolder();
             viewholder.content = (TextView) convertView.findViewById(R.id.event);
@@ -72,16 +80,20 @@ public class EventAdapter extends BaseAdapter{
         //Set seconds in the time field.
         int sec = (int) eventList.get(position).get("second");
 
-        long outputTime;
+        int local = timeZone.getRawOffset();
 
-        if(sec*1000 - System.currentTimeMillis() > 0){
-            outputTime = System.currentTimeMillis() - sec*1000;
+        Log.v(TAG,"local: " + local);
+
+        if(sec - system > 0){
+            local = sec - system;
         }else{
-            outputTime =  86399000 - System.currentTimeMillis() + sec*1000;
+            local =  86399 - system + sec;
         }
 
-        Date date = new java.util.Date(outputTime);
-        String result = new SimpleDateFormat("hh:mm:ss").format(date);
+        Log.i(TAG, " System time:"+system+" Cal: " + local +" Saved seconds:"+ sec);
+
+        Date date = new Date(local);
+        String result = new SimpleDateFormat("HH:mm:ss").format(date);
 
         viewholder.content.setText(text);
         viewholder.time.setText(result);

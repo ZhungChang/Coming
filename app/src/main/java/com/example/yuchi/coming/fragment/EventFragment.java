@@ -1,5 +1,10 @@
 package com.example.yuchi.coming.fragment;
 
+import android.app.AlertDialog;
+import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.example.yuchi.coming.R;
 import com.example.yuchi.coming.TimerDbHelper;
@@ -52,6 +58,16 @@ public class EventFragment extends ListFragment {
     @Override
     public void onResume() {
         mHandler.postDelayed(runnable, 500);
+        getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            public boolean  onItemLongClick(AdapterView<?> arg0, View arg1, int arg2,
+                                        long arg3) {
+                // TODO Auto-generated method stub
+                DialogFragment newFragment = new EventDialogFragment();
+                newFragment.show(getFragmentManager(), "dialog");
+                return true;
+            }
+        });
         super.onResume();
     }
 

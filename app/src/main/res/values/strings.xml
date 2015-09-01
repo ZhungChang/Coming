@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Coming</string>
     <string name="action_add">Add</string>
@@ -14,5 +15,10 @@
     <string name="msg_NameIsInvalid">Please write your event.</string>
     <string name="msg_InsertSuccess">Saved successfully.</string>
     <string name="msg_InsertFail">Can\'t save.</string>
+
+    <string-array name="event_changed_array">
+        <item>Edit</item>
+        <item>Delete</item>
+    </string-array>
 
 </resources>

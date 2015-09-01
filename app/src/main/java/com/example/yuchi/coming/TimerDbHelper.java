@@ -145,25 +145,4 @@ public class TimerDbHelper extends SQLiteOpenHelper {
                 null,
                 null);
     }
-
-    public Cursor fetchNote(long rowId) {
-
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        Cursor mCursor =
-                db.query(true,
-                        TABLE_NAME,
-                        new String[] {COLUMN_NAME_ENTRY_ID, COLUMN_EVENT_CONTENT, COLUMN_TIMER_CHANGETOSECOND},
-                        COLUMN_NAME_ENTRY_ID + "=" + rowId,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null);
-        if (mCursor != null) {
-            mCursor.moveToFirst();
-        }
-        return mCursor;
-
-    }
 }

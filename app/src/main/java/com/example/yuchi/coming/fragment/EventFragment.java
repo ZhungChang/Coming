@@ -27,6 +27,7 @@ public class EventFragment extends ListFragment {
     private TimerDbHelper dbHelper;
 
     private Handler mHandler;
+    private int index;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,7 @@ public class EventFragment extends ListFragment {
         // Initialize dataset, this data would usually come from a local content provider or
         // remote server.
         dbHelper = new TimerDbHelper(getActivity());
+        index = 0;
         list = dbHelper.getData();
         mAdapter = new EventAdapter(getActivity(), list);
 

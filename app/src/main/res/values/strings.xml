@@ -10,6 +10,7 @@
     <string name="dotdot">:</string>
     <string name="setting_timer">Set up a countdown.</string>
     <string name="empty">No data.</string>
+    <string name="test">TEST</string>
 
     <string name="msg_NameIsInvalid">Please write your event.</string>
     <string name="msg_InsertSuccess">Saved successfully.</string>

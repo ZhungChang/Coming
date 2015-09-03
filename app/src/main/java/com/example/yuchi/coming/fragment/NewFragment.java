@@ -78,6 +78,42 @@ public class NewFragment extends Fragment {
         minPicker = (NumberPicker) view.findViewById(R.id.min);
         secPicker = (NumberPicker) view.findViewById(R.id.sec);
 
+        hrPicker.setFormatter(new NumberPicker.Formatter(){
+            @Override
+            public String format(int value) {
+                if (value < 10) {
+                    return "0" + value;
+                }
+                else{
+                    return "" + value;
+                }
+            }
+        });
+
+        minPicker.setFormatter(new NumberPicker.Formatter(){
+            @Override
+            public String format(int value) {
+                if (value < 10) {
+                    return "0" + value;
+                }
+                else{
+                    return "" + value;
+                }
+            }
+        });
+
+        secPicker.setFormatter(new NumberPicker.Formatter(){
+            @Override
+            public String format(int value) {
+                if (value < 10) {
+                    return "0" + value;
+                }
+                else{
+                    return "" + value;
+                }
+            }
+        });
+
         hrPicker.setMaxValue(23);
         hrPicker.setMinValue(0);
         minPicker.setMaxValue(59);

@@ -41,8 +41,6 @@ public class NewFragment extends Fragment {
 
     private TimerDbHelper timerdbhelper;
 
-    private EventAdapter mAdapter;
-
     public NewFragment() {
         // Required empty public constructor
     }

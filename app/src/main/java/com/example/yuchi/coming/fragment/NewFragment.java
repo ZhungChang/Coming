@@ -45,6 +45,10 @@ public class NewFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public NewFragment(int second, String event){
+
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

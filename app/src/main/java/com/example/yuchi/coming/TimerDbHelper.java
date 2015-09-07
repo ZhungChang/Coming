@@ -98,13 +98,6 @@ public class TimerDbHelper extends SQLiteOpenHelper {
         db.execSQL(countQuery);
     }
 
-    public boolean hasEvent(){
-        Cursor c = fetchEvents();
-        int dbSize = c.getCount();
-        Log.i(TAG, "The db size is " + dbSize + ".");
-        return c.moveToFirst();
-    }
-
     // 讀取所有記事資料
     public List<HashMap<String, Object>> getData()
     {
@@ -133,9 +126,7 @@ public class TimerDbHelper extends SQLiteOpenHelper {
     }
 
     public Cursor fetchEvents(){
-
         SQLiteDatabase db = this.getWritableDatabase();
-
         return db.query(
                 TABLE_NAME, //Database name.
                 null,           //Column name.
@@ -144,5 +135,12 @@ public class TimerDbHelper extends SQLiteOpenHelper {
                 null,
                 null,
                 null);
+    }
+
+    public Cursor fetchTheEvent(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String where = COLUMN_NAME_ENTRY_ID + "=" + id;
+        return db.query(TABLE_NAME, null, where, null, null, null, null, null);
     }
 }

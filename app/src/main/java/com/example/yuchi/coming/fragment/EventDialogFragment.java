@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 
 import com.example.yuchi.coming.R;
 import com.example.yuchi.coming.TimerDbHelper;
@@ -26,7 +27,7 @@ public class EventDialogFragment extends DialogFragment {
     private EventAdapter mAdapter;
     private List<HashMap<String, Object>> list;
     private TimerDbHelper dbHelper;
-
+    private Cursor cursor;
 
     /**
      * Create a new instance of MyDialogFragment, providing "num"
@@ -59,7 +60,7 @@ public class EventDialogFragment extends DialogFragment {
                 // of the selected item
                 switch (which) {
                     case 0:
-                        doEdit();
+                        doEdit(index);
                         break;
                     case 1:
                         doDelete(index);
@@ -77,7 +78,13 @@ public class EventDialogFragment extends DialogFragment {
     }
 
     //Edit the selected item.
-    public void doEdit(){
+    public void doEdit(int id){
+        cursor = dbHelper.fetchTheEvent(id);
+        NewFragment f = new NewFragment();
+        Bundle args = new Bundle();
+        args.putString("event", cursor.getString(1));
+        args.putInt("sec", cursor.getInt(2));
+        f.setArguments(args);
     }
 
     //Delete the selected item.

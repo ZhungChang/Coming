@@ -36,7 +36,6 @@ import java.util.List;
 public class EventFragment extends ListFragment {
 
     private static final String TAG = "EventFragment";
-    public static final int DIALOG_FRAGMENT = 1;
 
     private EventAdapter mAdapter;
     private List<HashMap<String, Object>> list;
@@ -64,6 +63,21 @@ public class EventFragment extends ListFragment {
     }
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_event, container, false);
+
+        empty = (TextView) rootView.findViewById(R.id.empty);
+        if(dbHelper.getCount()>0){
+            empty.setVisibility(View.GONE);
+        }else {
+            empty.setVisibility(View.VISIBLE);
+        }
+
+        return rootView;
+    }
+
+    @Override
     public void onPause() {
         mHandler.removeCallbacks(runnable);
         super.onPause();
@@ -84,20 +98,8 @@ public class EventFragment extends ListFragment {
                 return true;
             }
         });
+        setListAdapter(mAdapter);
         super.onResume();
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_event, container, false);
-        empty = (TextView) rootView.findViewById(R.id.empty);
-        if(dbHelper.getCount()>0){
-            empty.setVisibility(View.GONE);
-        }else {
-            empty.setVisibility(View.VISIBLE);
-        }
-        return rootView;
     }
 
     final Runnable runnable = new Runnable() {
@@ -111,20 +113,5 @@ public class EventFragment extends ListFragment {
     void showDialog(int id) {
         DialogFragment newFragment = new EventDialogFragment().newInstance(id);
         newFragment.show(getFragmentManager(), "dialog");
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch(requestCode) {
-            case DIALOG_FRAGMENT:
-
-                if (resultCode == Activity.RESULT_OK) {
-                    // After Ok code.
-                } else if (resultCode == Activity.RESULT_CANCELED){
-                    // After Cancel code.
-                }
-
-                break;
-        }
     }
 }

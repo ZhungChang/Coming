@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.ListFragment;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,9 @@ import android.view.MenuItem;
 
 import com.example.yuchi.coming.R;
 import com.example.yuchi.coming.TimerDbHelper;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by choes_000 on 2015/3/16.
@@ -24,6 +28,7 @@ public class MainActivity extends Activity{
 
     private TimerDbHelper timerdbhelper;
     private SQLiteDatabase db;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,17 +45,8 @@ public class MainActivity extends Activity{
             //Open the database, if null, create a database.
             openDatabase();
 
-            //if the database is not include any data, open the empty fragment
-            //Or load the event page.
-            if(timerdbhelper.hasEvent()){
-                Log.i(TAG, "Exists  events");
-                EventFragment fragment = new EventFragment();
-                createPage(fragment);
-            }else {
-                Log.i(TAG, "Do not exist any events");
-                EmptyFragment fragment = new EmptyFragment();
-                createPage(fragment);
-            }
+            EventFragment fragment = new EventFragment();
+            createPage(fragment);
         }
     }
 
@@ -110,4 +106,5 @@ public class MainActivity extends Activity{
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
+
 }

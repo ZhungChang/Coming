@@ -7,7 +7,8 @@
     <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="5dp">
         <TextView
             android:id="@+id/event_time"
             android:text="event_time"
@@ -15,7 +16,8 @@
             android:layout_height="wrap_content"
             android:textSize="25sp"
             android:layout_marginLeft="10px"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:paddingRight="15dp"/>
         <TextView
             android:id="@+id/event"
             android:layout_toRightOf="@id/event_time"

@@ -91,8 +91,8 @@ public class TimerDbHelper extends SQLiteOpenHelper {
         return count;
     }
 
-    //Delete Query
-    public void removeFav(int id) {
+    //Delete data
+    public void removeFav(long id) {
         String countQuery = "DELETE FROM " + TABLE_NAME + " where " + COLUMN_NAME_ENTRY_ID + "= " + id ;
         SQLiteDatabase db = this.getReadableDatabase();
         db.execSQL(countQuery);

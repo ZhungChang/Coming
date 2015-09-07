@@ -47,7 +47,6 @@ public class EventAdapter extends BaseAdapter{
     //Get the count of items which is the array recieved from constructor or the index of a set.
     @Override
     public int getCount() {
-        Log.i(TAG, "Count :" + eventList.size());
         return eventList.size();
     }
 
@@ -74,27 +73,20 @@ public class EventAdapter extends BaseAdapter{
             viewholder.time = (TextView) convertView.findViewById(R.id.event_time);
             convertView.setTag(viewholder);
         }else{viewholder = (ViewHolder) convertView.getTag();}
-
         //Set text in the event field.
         String text = (String) eventList.get(position).get("event");
         //Set seconds in the time field.
         int sec = (int) eventList.get(position).get("second");
-
-        int local = timeZone.getRawOffset()/1000;
-
+        //The left second.
         int output;
-
-        int currentTime = (int) (System.currentTimeMillis()/1000) % 86400 + local;
-
-        Log.v(TAG,"local: " + local + " currentTime: "+ currentTime);
-
+        //Get the current tiem and add the offset between system default and UTC+0.
+        int currentTime = (int) (System.currentTimeMillis()/1000) % 86400 + timeZone.getRawOffset()/1000;
+        //The ring that 86400 sec.
         if(sec - currentTime > 0){
             output = sec - currentTime;
         }else{
             output =  86400 - currentTime + sec;
         }
-
-        Log.i(TAG, " System time:"+currentTime+" Cal: " + local +" Saved seconds:"+ sec);
 
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         //Make the timezone of the default Local with SimpleDataFormat to UTC.

@@ -10,6 +10,7 @@ import android.app.ListFragment;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 
@@ -28,6 +29,7 @@ public class EventDialogFragment extends DialogFragment {
     private List<HashMap<String, Object>> list;
     private TimerDbHelper dbHelper;
     private Cursor cursor;
+    public static final String TAG = "EventDialogFragment";
 
     /**
      * Create a new instance of MyDialogFragment, providing "num"
@@ -39,7 +41,6 @@ public class EventDialogFragment extends DialogFragment {
         Bundle args = new Bundle();
         args.putInt("num", num);
         f.setArguments(args);
-
         return f;
     }
 
@@ -50,7 +51,7 @@ public class EventDialogFragment extends DialogFragment {
 
         dbHelper = new TimerDbHelper(getActivity());
         index = getArguments().getInt("num");
-
+        Log.i(TAG, "EventDialog: " + index);
 
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -80,15 +81,16 @@ public class EventDialogFragment extends DialogFragment {
     //Edit the selected item.
     public void doEdit(int id){
         cursor = dbHelper.fetchTheEvent(id);
-        NewFragment f = new NewFragment();
-        Bundle args = new Bundle();
-        args.putString("event", cursor.getString(1));
-        args.putInt("sec", cursor.getInt(2));
-        f.setArguments(args);
+        cursor.moveToFirst();
+        Log.i(TAG, "saved_ID:" + cursor.getInt(0) + " savedContent:" + cursor.getString(1) + " savedSecond:" + cursor.getInt(2));
+        NewFragment newFragment = new NewFragment().newInstance(cursor.getInt(0),
+                cursor.getString(1),cursor.getInt(2));
+        applyNewFragment(newFragment);
     }
 
     //Delete the selected item.
     public void doDelete(int id){
+        Log.i(TAG, "doDelete ID: "+ id);
         dbHelper.removeFav(id);
 
         EventFragment f = new EventFragment();

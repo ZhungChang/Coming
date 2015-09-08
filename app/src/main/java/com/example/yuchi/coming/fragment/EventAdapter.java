@@ -65,6 +65,7 @@ public class EventAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewholder;
+
         if(convertView == null){
             timeZone = TimeZone.getDefault();
             convertView = mInflater.inflate(R.layout.item_event_list, null);

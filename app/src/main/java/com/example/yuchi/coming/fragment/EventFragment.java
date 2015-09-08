@@ -55,7 +55,6 @@ public class EventFragment extends ListFragment {
 
         list = dbHelper.getData();
         mAdapter = new EventAdapter(getActivity(), list);
-
         mHandler = new Handler();
         mHandler.post(runnable);
 
@@ -85,6 +84,8 @@ public class EventFragment extends ListFragment {
 
     @Override
     public void onResume() {
+        super.onResume();
+
         mHandler.postDelayed(runnable, 500);
         //Call back DialogFragment
         getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -95,11 +96,11 @@ public class EventFragment extends ListFragment {
                 cursor = dbHelper.fetchEvents();
                 cursor.moveToPosition(arg2);
                 showDialog(cursor.getInt(0));
+                Log.i(TAG, "Position:" + arg2 + " Id:" + arg3 + " _ID:" + cursor.getInt(0));
                 return true;
             }
         });
         setListAdapter(mAdapter);
-        super.onResume();
     }
 
     final Runnable runnable = new Runnable() {
@@ -111,7 +112,10 @@ public class EventFragment extends ListFragment {
     };
 
     void showDialog(int id) {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         DialogFragment newFragment = new EventDialogFragment().newInstance(id);
+        fragmentTransaction.addToBackStack(null);
         newFragment.show(getFragmentManager(), "dialog");
     }
 }

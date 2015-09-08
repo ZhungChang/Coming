@@ -24,20 +24,24 @@ import com.example.yuchi.coming.TimerPack;
 public class NewFragment extends Fragment {
 
     private static final String TAG = "NewFragment";
-
+    //The saved data from the database.
+    public static final String SAVED_ID = "Second";
+    public static final String SAVED_SECOND = "Second";
+    public static final String SAVED_EVENT = "Event";
     //Get view of activity.
     private View view;
 
     private Menu menu;
-
     //Numberpickers that sets up the alarm time
     private NumberPicker hrPicker,minPicker,secPicker;
-
     //Edittext mEdit that saves the content.
     private EditText mEdit;
-
     //Integer tmp that saves the time setting.
     private int Hr,Min,Sec, Total;
+
+    private Bundle args;
+
+    private boolean hasBundle;
 
     private TimerDbHelper timerdbhelper;
 
@@ -45,8 +49,14 @@ public class NewFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public NewFragment(int second, String event){
-
+    public static NewFragment newInstance(int id, String event, int second){
+        NewFragment newFragment = new NewFragment();
+        Bundle args = new Bundle();
+        args.putInt(SAVED_ID, id);
+        args.putString(SAVED_EVENT, event);
+        args.putInt(SAVED_SECOND, second);
+        newFragment.setArguments(args);
+        return newFragment;
     }
 
     @Override
@@ -55,16 +65,24 @@ public class NewFragment extends Fragment {
 
         setHasOptionsMenu(true);
         getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
-        Hr = 0 ;
-        Min = 0;
-        Sec = 0;
-        Total = 0;
-
         timerdbhelper = new TimerDbHelper(getActivity());
+        args = getArguments();
+        hasBundle = false;
 
-        // END_INCLUDE (inflate_set_custom_view)
-        // Initialize dataset, this data would usually come from a local content provider or
-        // remote server.
+        //To decide that how the fragment to apply
+        if (args == null) {
+            //Initiate the countdown second.
+            Hr = 0 ;
+            Min = 0;
+            Sec = 0;
+            Total = 0;
+        } else {
+            hasBundle = true;
+            Total = getArguments().getInt(SAVED_SECOND);
+            Sec = Total%3600;
+            Min = (Total-Sec)%60;
+            Hr = (Total-Sec-Min*60)/3600;
+        }
     }
 
     @Override
@@ -91,7 +109,6 @@ public class NewFragment extends Fragment {
                 }
             }
         });
-
         minPicker.setFormatter(new NumberPicker.Formatter(){
             @Override
             public String format(int value) {
@@ -103,7 +120,6 @@ public class NewFragment extends Fragment {
                 }
             }
         });
-
         secPicker.setFormatter(new NumberPicker.Formatter(){
             @Override
             public String format(int value) {
@@ -123,11 +139,17 @@ public class NewFragment extends Fragment {
         secPicker.setMaxValue(59);
         secPicker.setMinValue(0);
 
+        if( args != null){
+            hrPicker.setValue(Hr);
+            minPicker.setValue(Min);
+            secPicker.setValue(Sec);
+            mEdit.setText(getArguments().getString(SAVED_EVENT));
+        }
+
         hrPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                 Hr = newVal * 3600;
-                Log.v(TAG,"HR: sec: "+Sec+ " oldVal: " + oldVal + " newVal: " + newVal);
             }
         });
 
@@ -135,7 +157,6 @@ public class NewFragment extends Fragment {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                 Min = newVal * 60;
-                Log.v(TAG, "Min: sec: "+Sec+ "  oldVal: " + oldVal + " newVal: " + newVal);
             }
         });
 
@@ -143,7 +164,6 @@ public class NewFragment extends Fragment {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                 Sec = newVal;
-                Log.v(TAG, "Sec: sec: "+Sec+ " oldVal: " + oldVal + " newVal: " + newVal);
             }
         });
         return view;
@@ -172,6 +192,14 @@ public class NewFragment extends Fragment {
     }
 
     @Override
+    public void onPause(){
+        super.onPause();
+        if(hasBundle == true){
+            args.clear();
+        }
+    }
+
+    @Override
     public void onCreateOptionsMenu (Menu menu, MenuInflater inflater) {
 
         //Show the menu menu_new.
@@ -190,16 +218,16 @@ public class NewFragment extends Fragment {
         }
 
         Total = Sec + Min + Hr;
-
-        long rowId = timerdbhelper.add(new TimerPack(event,Total));
+        long rowId = (hasBundle) ? timerdbhelper.updateFav(new TimerPack(getArguments().getInt(SAVED_ID) ,event ,Total))
+                                  : timerdbhelper.add(new TimerPack(event, Total));
         if (rowId != -1) {
             Toast.makeText(getActivity(), R.string.msg_InsertSuccess,
                     Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getActivity(), R.string.msg_InsertSuccess,
+            Toast.makeText(getActivity(), R.string.msg_InsertFail,
                     Toast.LENGTH_SHORT).show();
         }
-        
+        Log.i(TAG, "ID: " + rowId + " Content:" + event + " Total second:" + Total);
         changeFragment();
     }
 

@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class TimerDbHelper extends SQLiteOpenHelper {
 
-    private static final String TAG = "TimerDbHelper";
+    public static final String TAG = "TimerDbHelper";
 
     public static final String TABLE_NAME = "entry";
     public static final String COLUMN_NAME_NULLABLE = "null";
@@ -59,25 +59,6 @@ public class TimerDbHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    //Insert data
-    public long add(TimerPack timerPack){
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        // Create a new map of values, where column names are the keys
-        ContentValues values = new ContentValues();
-
-        values.put(COLUMN_EVENT_CONTENT, timerPack.getEventStr());
-        Log.i(TAG, timerPack.getEventStr());
-
-        values.put(COLUMN_TIMER_CHANGETOSECOND, timerPack.getTotalSecond());
-        Log.i(TAG, "" + timerPack.getTotalSecond());
-
-        return db.insert(
-                TABLE_NAME,
-                COLUMN_NAME_NULLABLE,
-                values);
-    }
-
     //Get Row Count
     public int getCount() {
         String countQuery = "SELECT  * FROM " + TABLE_NAME;
@@ -90,12 +71,52 @@ public class TimerDbHelper extends SQLiteOpenHelper {
         }
         return count;
     }
+    //Insert data
+    public long add(TimerPack timerPack){
 
+        SQLiteDatabase db = this.getWritableDatabase();
+        // Create a new map of values, where column names are the keys
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_EVENT_CONTENT, timerPack.getEventStr());
+        values.put(COLUMN_TIMER_CHANGETOSECOND, timerPack.getTotalSecond());
+        return db.insert(
+                TABLE_NAME,
+                COLUMN_NAME_NULLABLE,
+                values);
+    }
     //Delete data
     public void removeFav(long id) {
-        String countQuery = "DELETE FROM " + TABLE_NAME + " where " + COLUMN_NAME_ENTRY_ID + "= " + id ;
+        Log.i(TAG, "Delete ID: " + id);
+        String removeQuery = "DELETE FROM " + TABLE_NAME + " where " + COLUMN_NAME_ENTRY_ID + "= " + id ;
         SQLiteDatabase db = this.getReadableDatabase();
-        db.execSQL(countQuery);
+    }
+
+    public Cursor fetchTheEvent(long id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String where =  COLUMN_NAME_ENTRY_ID + "= " + id;
+        return db.query(TABLE_NAME, null, where, null, null, null, null, null);
+    }
+
+    public long updateFav(TimerPack timerPack){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        String where = COLUMN_NAME_ENTRY_ID + "=" + timerPack.getId();
+        values.put(COLUMN_TIMER_CHANGETOSECOND, timerPack.getTotalSecond());
+        values.put(COLUMN_EVENT_CONTENT, timerPack.getEventStr());
+
+        return db.update(TABLE_NAME, values, where, null);
+    }
+
+    public Cursor fetchEvents(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.query(
+                TABLE_NAME, //Database name.
+                null,           //Column name.
+                null,
+                null,
+                null,
+                null,
+                null);
     }
 
     // 讀取所有記事資料
@@ -113,34 +134,12 @@ public class TimerDbHelper extends SQLiteOpenHelper {
             do {
                 map = new HashMap<String, Object>();
                 map.put(COLUMN_NAME_ENTRY_ID, cursor.getInt(0));
-                Log.i(TAG, "The no. is: " + cursor.getInt(0));
                 map.put(COLUMN_EVENT_CONTENT, cursor.getString(1));
-                Log.i(TAG, "The event is: " + cursor.getString(1));
                 map.put(COLUMN_TIMER_CHANGETOSECOND, cursor.getInt(2));
-                Log.i(TAG, "The second is: " + cursor.getInt(2));
                 list.add(map);
             } while (cursor.moveToNext());
         }
         cursor.close();
         return list;
-    }
-
-    public Cursor fetchEvents(){
-        SQLiteDatabase db = this.getWritableDatabase();
-        return db.query(
-                TABLE_NAME, //Database name.
-                null,           //Column name.
-                null,
-                null,
-                null,
-                null,
-                null);
-    }
-
-    public Cursor fetchTheEvent(int id){
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        String where = COLUMN_NAME_ENTRY_ID + "=" + id;
-        return db.query(TABLE_NAME, null, where, null, null, null, null, null);
     }
 }

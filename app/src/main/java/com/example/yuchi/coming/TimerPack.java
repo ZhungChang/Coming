@@ -12,12 +12,19 @@ public class TimerPack {
 
     private String event;
     private int totalSecond;
+    private int id;
 
     public TimerPack(){
 
     }
 
     public TimerPack(String _event, int _second){
+        this.event = _event;
+        this.totalSecond = _second;
+    }
+
+    public TimerPack(int _id,String _event, int _second){
+        this.id = _id;
         this.event = _event;
         this.totalSecond = _second;
     }
@@ -34,5 +41,13 @@ public class TimerPack {
 
     public void setTotalSecond(int totalSecond){
         this.totalSecond = totalSecond;
+    }
+
+    public int getId(){
+        return id;
+    }
+
+    public void id(int id){
+        this.id = id;
     }
 }

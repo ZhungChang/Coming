@@ -9,13 +9,16 @@
     <string name="enter">Enter</string>
     <string name="set_time">00:00:00</string>
     <string name="dotdot">:</string>
-    <string name="setting_timer">Set up a countdown.</string>
-    <string name="empty">No data.</string>
+    <string name="setting_timer">Set up a countdown </string>
+    <string name="empty">No data</string>
     <string name="test">TEST</string>
 
-    <string name="msg_NameIsInvalid">Please write your event.</string>
-    <string name="msg_InsertSuccess">Saved successfully.</string>
-    <string name="msg_InsertFail">Can\'t save.</string>
+    <string name="actionbar_add">Add a event</string>
+    <string name="actionbar_list">Coming</string>
+
+    <string name="msg_NameIsInvalid">Please add your texts</string>
+    <string name="msg_InsertSuccess">Save successful</string>
+    <string name="msg_InsertFail">Save failed</string>
 
     <string-array name="event_changed_array">
         <item>Edit</item>

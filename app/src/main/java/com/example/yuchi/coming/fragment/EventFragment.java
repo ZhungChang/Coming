@@ -72,7 +72,6 @@ public class EventFragment extends ListFragment {
         }else {
             empty.setVisibility(View.VISIBLE);
         }
-
         return rootView;
     }
 
@@ -85,6 +84,7 @@ public class EventFragment extends ListFragment {
     @Override
     public void onResume() {
         super.onResume();
+        getActivity().getActionBar().setTitle(R.string.actionbar_list);
 
         mHandler.postDelayed(runnable, 500);
         //Call back DialogFragment
@@ -100,7 +100,6 @@ public class EventFragment extends ListFragment {
                 return true;
             }
         });
-        setListAdapter(mAdapter);
     }
 
     final Runnable runnable = new Runnable() {
@@ -114,8 +113,8 @@ public class EventFragment extends ListFragment {
     void showDialog(int id) {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        DialogFragment newFragment = new EventDialogFragment().newInstance(id);
         fragmentTransaction.addToBackStack(null);
+        DialogFragment newFragment = new EventDialogFragment().newInstance(id);
         newFragment.show(getFragmentManager(), "dialog");
     }
 }

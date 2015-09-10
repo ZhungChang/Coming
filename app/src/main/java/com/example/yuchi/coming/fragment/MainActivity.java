@@ -69,8 +69,6 @@ public class MainActivity extends Activity{
             case R.id.action_new:
                 newEvent();
                 return true;
-            case R.id.action_discard:
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

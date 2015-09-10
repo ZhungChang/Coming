@@ -51,7 +51,6 @@ public class EventDialogFragment extends DialogFragment {
 
         dbHelper = new TimerDbHelper(getActivity());
         index = getArguments().getInt("num");
-        Log.i(TAG, "EventDialog: " + index);
 
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -107,7 +106,6 @@ public class EventDialogFragment extends DialogFragment {
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack so the user can navigate back
         fragmentTransaction.replace(R.id.fragment_container, f);
-        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 }

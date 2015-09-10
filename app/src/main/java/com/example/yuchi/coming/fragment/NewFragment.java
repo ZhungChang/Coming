@@ -18,6 +18,8 @@ import com.example.yuchi.coming.R;
 import com.example.yuchi.coming.TimerDbHelper;
 import com.example.yuchi.coming.TimerPack;
 
+import java.util.HashMap;
+import java.util.List;
 /**
  * Created by choes_000 on 2015/3/29.
  */
@@ -45,6 +47,10 @@ public class NewFragment extends Fragment {
 
     private TimerDbHelper timerdbhelper;
 
+    private EventAdapter mAdapter;
+    private List<HashMap<String, Object>> list;
+    private TimerDbHelper dbHelper;
+
     public NewFragment() {
         // Required empty public constructor
     }
@@ -65,6 +71,7 @@ public class NewFragment extends Fragment {
 
         setHasOptionsMenu(true);
         getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActivity().getActionBar().setTitle(R.string.actionbar_add);
         timerdbhelper = new TimerDbHelper(getActivity());
         args = getArguments();
         hasBundle = false;
@@ -218,6 +225,7 @@ public class NewFragment extends Fragment {
         }
 
         Total = Sec + Min + Hr;
+        Log.i(TAG, "Before save, Event:" + event  + " Sec:" + Total);
         long rowId = (hasBundle) ? timerdbhelper.updateFav(new TimerPack(getArguments().getInt(SAVED_ID) ,event ,Total))
                                   : timerdbhelper.add(new TimerPack(event, Total));
         if (rowId != -1) {
@@ -227,21 +235,24 @@ public class NewFragment extends Fragment {
             Toast.makeText(getActivity(), R.string.msg_InsertFail,
                     Toast.LENGTH_SHORT).show();
         }
-        Log.i(TAG, "ID: " + rowId + " Content:" + event + " Total second:" + Total);
         changeFragment();
     }
 
     public void changeFragment(){
         // Otherwise, we're in the one-pane layout and must swap frags...
-
         // Create fragment and give it an argument for the selected article
         EventFragment eventFragment = new EventFragment();
+        dbHelper = new TimerDbHelper(getActivity());
+        list = dbHelper.getData();
+        mAdapter = new EventAdapter(getActivity(), list);
+        mAdapter.notifyDataSetChanged();
+
+        eventFragment.setListAdapter(mAdapter);
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        getFragmentManager().beginTransaction()
                 // Replace whatever is in the fragment_container view with this fragment,
                 // and add the transaction to the back stack so the user can navigate back
-                .replace(R.id.fragment_container, eventFragment)
+        fragmentTransaction.replace(R.id.fragment_container, eventFragment);
                 // Commit the transaction
-                .commit();
+        fragmentTransaction.commit();
     }
 }

@@ -71,9 +71,9 @@ public class TimerDbHelper extends SQLiteOpenHelper {
         }
         return count;
     }
+
     //Insert data
     public long add(TimerPack timerPack){
-
         SQLiteDatabase db = this.getWritableDatabase();
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
@@ -84,11 +84,21 @@ public class TimerDbHelper extends SQLiteOpenHelper {
                 COLUMN_NAME_NULLABLE,
                 values);
     }
+
+    public int updateFav(TimerPack timerPack){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        String where = COLUMN_NAME_ENTRY_ID + "=" + timerPack.getId();
+        values.put(COLUMN_TIMER_CHANGETOSECOND, timerPack.getTotalSecond());
+        values.put(COLUMN_EVENT_CONTENT, timerPack.getEventStr());
+        return db.update(TABLE_NAME, values, where, null);
+    }
     //Delete data
     public void removeFav(long id) {
+        SQLiteDatabase db = this.getWritableDatabase();
         Log.i(TAG, "Delete ID: " + id);
         String removeQuery = "DELETE FROM " + TABLE_NAME + " where " + COLUMN_NAME_ENTRY_ID + "= " + id ;
-        SQLiteDatabase db = this.getReadableDatabase();
+        db.execSQL(removeQuery);
     }
 
     public Cursor fetchTheEvent(long id){
@@ -97,15 +107,6 @@ public class TimerDbHelper extends SQLiteOpenHelper {
         return db.query(TABLE_NAME, null, where, null, null, null, null, null);
     }
 
-    public long updateFav(TimerPack timerPack){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        String where = COLUMN_NAME_ENTRY_ID + "=" + timerPack.getId();
-        values.put(COLUMN_TIMER_CHANGETOSECOND, timerPack.getTotalSecond());
-        values.put(COLUMN_EVENT_CONTENT, timerPack.getEventStr());
-
-        return db.update(TABLE_NAME, values, where, null);
-    }
 
     public Cursor fetchEvents(){
         SQLiteDatabase db = this.getReadableDatabase();

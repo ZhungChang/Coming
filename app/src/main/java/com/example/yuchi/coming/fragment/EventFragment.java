@@ -85,6 +85,7 @@ public class EventFragment extends ListFragment {
     public void onResume() {
         super.onResume();
         getActivity().getActionBar().setTitle(R.string.actionbar_list);
+        getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
 
         mHandler.postDelayed(runnable, 500);
         //Call back DialogFragment
@@ -113,7 +114,6 @@ public class EventFragment extends ListFragment {
     void showDialog(int id) {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.addToBackStack(null);
         DialogFragment newFragment = new EventDialogFragment().newInstance(id);
         newFragment.show(getFragmentManager(), "dialog");
     }

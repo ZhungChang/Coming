@@ -1,6 +1,7 @@
 package com.example.yuchi.coming.fragment;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
@@ -190,7 +191,6 @@ public class NewFragment extends Fragment {
                 getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
                 return true;
             case android.R.id.home:
-                getFragmentManager().popBackStack();
                 getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
                 return true;
             default:
@@ -246,11 +246,24 @@ public class NewFragment extends Fragment {
         list = dbHelper.getData();
         mAdapter = new EventAdapter(getActivity(), list);
         mAdapter.notifyDataSetChanged();
-
         eventFragment.setListAdapter(mAdapter);
+
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 // Replace whatever is in the fragment_container view with this fragment,
                 // and add the transaction to the back stack so the user can navigate back
+
+        // In your FragmentActivity use getSupprotFragmentManager() to get the FragmentManager.
+
+        // Clear all back stack.
+        int backStackCount = getFragmentManager().getBackStackEntryCount();
+        for (int i = 0; i < backStackCount; i++) {
+
+            // Get the back stack fragment id.
+            int backStackId = getFragmentManager().getBackStackEntryAt(i).getId();
+
+            getFragmentManager().popBackStack(backStackId, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+        } /* end of for */
         fragmentTransaction.replace(R.id.fragment_container, eventFragment);
                 // Commit the transaction
         fragmentTransaction.commit();
